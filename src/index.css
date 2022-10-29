@@ -5,7 +5,7 @@
 }
 
 body {
-  margin: 0;
+  margin:0;
   font-family: 'CeraProMedium';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -13,16 +13,27 @@ body {
 
 @font-face {
   font-family: 'CeraProMedium';
-  src: local('CeraProMedium'), url(./fonts/CeraProMedium.otf) format('opentype');
+  src: local('CeraProMedium'), url(./assets/fonts/CeraProMedium.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'CeraProBold';
-  src: local('CeraProBold'), url(./fonts/CeraProBold.otf) format('opentype');
+  src: local('CeraProBold'), url(./assets/fonts/CeraProBold.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'CeraProLight';
-  src: local('CeraProLight'), url(./fonts/CeraProLight.otf) format('opentype');
+  src: local('CeraProLight'), url(./assets/fonts/CeraProLight.otf) format('opentype');
 }
 
+h1,h2, p, a {
+  color: var(--blue);
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #445a98;
+}
