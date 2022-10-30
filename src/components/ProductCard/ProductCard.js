@@ -10,7 +10,7 @@ import "./ProductCard.css";
 
 export default function ProductCard(props) {
   return (
-    <Card sx={{ maxWidth: 250, margin: "2%" }}>
+    <Card id="productCard">
       <CardMedia
         component="img"
         height="200"
