@@ -14,7 +14,7 @@ export default function ProductCard(props) {
       <CardMedia
         component="img"
         height="200"
-        image="https://maveko.com/assets/images/5/Cutlery-2e84f441.webp"
+        image={props.image}
         alt={props.title}
       />
       <CardContent>
