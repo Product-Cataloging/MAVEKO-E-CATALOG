@@ -1,0 +1,1 @@
+export const apiUrl =  'https://product-catalog-api.onrender.com'; 
