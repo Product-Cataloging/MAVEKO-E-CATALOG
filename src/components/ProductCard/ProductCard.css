@@ -1,0 +1,25 @@
+#outlined-basic {
+  width: 120px;
+  font-family: "CeraProLight";
+}
+
+.show {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.hide {
+  display: none;
+}
+
+#addToCart {
+  background-color: var(--blue);
+  color: var(--gray);
+  border: 0;
+}
+
+#cardTitle,
+#cardDetail {
+  font-family: "CeraProMedium";
+}
