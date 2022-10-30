@@ -11,7 +11,7 @@ const TableComponent = (props) => {
   const { rows, columns, actions } = props;
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer style={{padding: '0 10px', borderRadius: 20, boxSizing: 'border-box'}} component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>

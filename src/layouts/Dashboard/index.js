@@ -14,7 +14,7 @@ class Admin extends Component {
     return (
       <div style={{ display: "flex", backgroundColor: 'var(--gray)' }}>
         <DashboardNavbar />
-        <div style={{ padding: "15px", flexGrow: 1}}>
+        <div style={{ padding: "15px", flexGrow: 1, maxHeight: '100vh', paddingRight: 20, overflow: 'auto', boxSizing: 'border-box'}}>
           <Routes>
             <Route exact path="/dashboard" element={<Dashboard />}></Route>
             <Route exact path="/suppliers" element={<Supplier />}></Route>
