@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 const TableComponent = (props) => {
-  const { rows, columns } = props;
+  const { rows, columns, actions } = props;
 
   return (
     <TableContainer component={Paper}>
@@ -16,13 +16,13 @@ const TableComponent = (props) => {
         <TableHead>
           <TableRow>
             {columns.map((column) => (
-              <TableCell
-                style={{ fontWeight: "bold" }}
-                key={column.name}
-              >
+              <TableCell style={{ fontWeight: "bold" }} key={column.name}>
                 {column.label}
               </TableCell>
             ))}
+            {actions && (
+              <TableCell style={{ fontWeight: "bold" }}>Actions</TableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -31,13 +31,25 @@ const TableComponent = (props) => {
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              {columns.map((column) => 
-                <TableCell
-                key={column.name}
-                >
-                  {row[column.name]}
-                </TableCell>
-              )}
+              {columns.map((column) => (
+                <TableCell key={column.name}>{row[column.name]}</TableCell>
+              ))}
+              <TableCell style={{ fontWeight: "bolder" }}>
+                {actions &&
+                  actions.map((action) => (
+                    <span
+                      style={{
+                        color: action.color,
+                        textDecoration: "underline",
+                        marginRight: 5,
+                        cursor: "pointer",
+                      }}
+                      key={action.name}
+                    >
+                      {action.label}
+                    </span>
+                  ))}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
