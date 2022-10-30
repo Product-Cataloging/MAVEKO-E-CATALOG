@@ -18,8 +18,9 @@
 
 .logo{
     transform-origin: center;
-        position: absolute;
-    left: 46%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 nav > a {
