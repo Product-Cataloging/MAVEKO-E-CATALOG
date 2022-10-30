@@ -1,0 +1,14 @@
+.sidebarFilterMenu {
+  width: 250px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  padding: 20px;
+  padding-top: 3px;
+  border-radius: 3px;
+  background-color: var(--gray);
+}
+
+.filterValues span {
+  font-family: "CeraProLight";
+  font-size: 14px;
+}
