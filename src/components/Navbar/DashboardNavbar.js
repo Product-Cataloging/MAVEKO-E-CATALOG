@@ -5,7 +5,7 @@ class DashboardNavbar extends Component {
     links: [
       {
         name: "Dashboard",
-        route: "/",
+        route: "/dashboard",
         icon: <i className="pi pi-chart-bar"></i>,
       },
       {

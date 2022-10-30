@@ -10,7 +10,6 @@ function DashboardNavbarLink(props) {
       listStyle: "none",
       marginBottom: 2,
       borderRadius: 5,
-      padding: 15,
       cursor: "pointer",
     },
     span: {
@@ -19,6 +18,8 @@ function DashboardNavbarLink(props) {
     link: {
       color: "inherit",
       textDecoration: "none",
+      padding: '15px',
+      display: 'block',
     },
   };
   return (
@@ -34,7 +35,7 @@ function DashboardNavbarLink(props) {
 function CustomLink({ route, children, ...props }) {
   const path = window.location.pathname;
   const resolvedPath = useResolvedPath(route);
-  const isActive = useMatch({ path: resolvedPath.pathname });
+  const isActive = useMatch({ path: resolvedPath.pathname, end: false });
   return (
     <li style={props.style} className={isActive ? "li active" : "li"}>
       {children}

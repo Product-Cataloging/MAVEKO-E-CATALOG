@@ -12,16 +12,18 @@ class Admin extends Component {
   state = {};
   render() {
     return (
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", backgroundColor: 'var(--gray)' }}>
         <DashboardNavbar />
-        <Routes>
-          <Route exact path="/" element={<Dashboard />}></Route>
-          <Route exact path="/supplers" element={<Supplier />}></Route>
-          <Route exact path="/products" element={<Product />}></Route>
-          <Route exact path="/products/:id" element={<ProductItem />}></Route>
-          <Route exact path="/quotations" element={<Quotation />}></Route>
-          <Route exact path="/users" element={<User />}></Route>
-        </Routes>
+        <div style={{ padding: "15px", flexGrow: 1}}>
+          <Routes>
+            <Route exact path="/dashboard" element={<Dashboard />}></Route>
+            <Route exact path="/suppliers" element={<Supplier />}></Route>
+            <Route exact path="/products" element={<Product />}></Route>
+            <Route exact path="/products/:id" element={<ProductItem />}></Route>
+            <Route exact path="/quotations" element={<Quotation />}></Route>
+            <Route exact path="/users" element={<User />}></Route>
+          </Routes>
+        </div>
       </div>
     );
   }
