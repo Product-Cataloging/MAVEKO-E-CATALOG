@@ -26,3 +26,15 @@ body {
   src: local('CeraProLight'), url(./fonts/CeraProLight.otf) format('opentype');
 }
 
+*::-webkit-scrollbar {
+  width: .4em;
+}
+ 
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px var(--black);
+}
+ 
+*::-webkit-scrollbar-thumb {
+  background-color: var(--black);
+}
+
