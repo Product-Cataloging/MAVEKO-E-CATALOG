@@ -29,7 +29,8 @@ class DashboardNavbar extends Component {
   style = {
     wrapper: {
       height: "100vh",
-      width: "280px",
+      minWidth: "280px",
+      maxWidth: "280px",
       padding: "15px",
       color: "white",
       boxSizing: "border-box",
