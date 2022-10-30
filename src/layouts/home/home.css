@@ -1,0 +1,15 @@
+.hero {
+    background: url('../../assets/images/ocean.webp');
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position: bottom;
+    height: 78.6vh;
+    overflow: hidden;
+}
+
+.hero > h1 {
+    font-family: 'CeraProBlack';
+    line-height: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+}

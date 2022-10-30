@@ -9,12 +9,12 @@ import userIcon from '../../assets/icons/user.svg'
 export default function Navbar() {
   return (
     <div className='navbars'>
-        <section className='info d-flex gap-3 py-3'> 
+        <section className='info d-flex gap-3 py-2'> 
             <a href="#"><img src={callIcon}/>+49 (0)4103 1899880</a>
             <a href="#"><img src={smsIcon}/>info@maveko.com</a>
             <a href="#"><img src={whatsappIcon}/>WhatsApp</a>
         </section>
-        <section className='main-nav d-flex justify-content-between py-4 align-items-center'>
+        <section className='main-nav d-flex justify-content-between py-3 align-items-center'>
             <nav>
               <a href="" className='pe-3'>Products</a>
               <a href="" className='pe-3'>About us</a>

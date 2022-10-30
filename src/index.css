@@ -26,6 +26,11 @@ body {
   src: local('CeraProLight'), url(./assets/fonts/CeraProLight.otf) format('opentype');
 }
 
+@font-face {
+  font-family: 'CeraProBlack';
+  src: local('CeraProBlack'), url(./assets/fonts/CeraProBlack.otf) format('opentype');
+}
+
 h1,h2, p, a {
   color: var(--blue);
 }
