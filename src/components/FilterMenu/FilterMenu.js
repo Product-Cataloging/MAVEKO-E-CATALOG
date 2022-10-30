@@ -1,28 +1,85 @@
 import React from "react";
-import FormGroup from "@mui/material/FormGroup";
+import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import { useState, useEffect } from "react";
+import Radio from "@mui/material/Radio";
 import "./FilterMenu.css";
 
-export default function FilterMenu(props) {
-  const suppliers = [];
+export default function FilterMenu({ setProduct }) {
   const materials = [];
+  const suppliers = [];
   const colors = [];
-  const prices = [];
 
-  props.filters.forEach((filter) => {
-    suppliers.push(
-      <FormControlLabel control={<Checkbox />} label={filter.supplier} />
-    );
-    materials.push(
-      <FormControlLabel control={<Checkbox />} label={filter.material} />
-    );
-    colors.push(
-      <FormControlLabel control={<Checkbox />} label={filter.color} />
-    );
-    prices.push(
-      <FormControlLabel control={<Checkbox />} label={filter.price} />
-    );
+  const filter = (key) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        payload: {
+          keyword: key,
+        },
+      }),
+    };
+
+    fetch("https://product-catalog-api.onrender.com/search/", requestOptions)
+      .then((response) => response.json())
+      .then((response) => setProduct(response.data));
+  };
+
+  const [items, setItems] = useState([]);
+  const fetchData = () => {
+    fetch("https://product-catalog-api.onrender.com/product_items/")
+      .then((res) => res.json())
+      .then((res) => setItems(res.data));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleChange = (event) => {
+    filter(event.target.value);
+  };
+
+  const temp = [];
+  items.forEach((filter) => {
+    if (!temp.includes(filter.supplier_company_name)) {
+      suppliers.push(
+        <FormControlLabel
+          value={filter.supplier_company_name}
+          control={<Radio />}
+          onChange={handleChange}
+          label={filter.supplier_company_name}
+        />
+      );
+      temp.push(filter.supplier_company_name);
+    }
+
+    if (!temp.includes(filter.color)) {
+      colors.push(
+        <FormControlLabel
+          value={filter.color}
+          control={<Radio />}
+          onChange={handleChange}
+          label={filter.color}
+        />
+      );
+      temp.push(filter.color);
+    }
+
+    if (!temp.includes(filter.material)) {
+      materials.push(
+        <FormControlLabel
+          value={filter.material}
+          control={<Radio />}
+          onChange={handleChange}
+          label={filter.material}
+        />
+      );
+      temp.push(filter.material);
+    }
+
+    
   });
 
   return (
@@ -33,7 +90,7 @@ export default function FilterMenu(props) {
         </div>
 
         <div className="filterValues">
-          <FormGroup>{suppliers}</FormGroup>
+          <RadioGroup>{suppliers}</RadioGroup>
         </div>
       </div>
 
@@ -43,7 +100,7 @@ export default function FilterMenu(props) {
         </div>
 
         <div className="filterValues">
-          <FormGroup>{colors}</FormGroup>
+          <RadioGroup>{colors}</RadioGroup>
         </div>
       </div>
 
@@ -53,17 +110,7 @@ export default function FilterMenu(props) {
         </div>
 
         <div className="filterValues">
-          <FormGroup>{materials}</FormGroup>
-        </div>
-      </div>
-
-      <div className="filterMenu">
-        <div className="filterTitle">
-          <h3>Price</h3>
-        </div>
-
-        <div className="filterValues">
-          <FormGroup>{prices}</FormGroup>
+          <RadioGroup>{materials}</RadioGroup>
         </div>
       </div>
     </div>
