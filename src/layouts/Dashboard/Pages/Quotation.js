@@ -20,7 +20,7 @@ class Quotation extends Component {
   render() {
     const rows = this.state.quotations;
 
-    const actions = [{ label: "Edit", name: "edit", color: "var(--blue)" }];
+    const actions = [{ label: "Edit", name: "edit", color: "var(--blue)", icon: 'pi pi-pencil' }];
 
     const columns = [
       { label: "First Name", name: "first_name" },

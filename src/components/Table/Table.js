@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Button } from 'primereact/button';
 
 const TableComponent = (props) => {
   const { rows, columns, actions } = props;
@@ -34,21 +35,26 @@ const TableComponent = (props) => {
               {columns.map((column) => (
                 <TableCell key={column.name}>{row[column.name]}</TableCell>
               ))}
-              <TableCell style={{ fontWeight: "bolder" }}>
+              <TableCell align="center" style={{ fontWeight: "bolder" }}>
                 {actions &&
                   actions.map((action) => (
-                    <span
+                    <Button
                       style={{
                         color: action.color,
-                        textDecoration: "underline",
+                        backgroundColor: 'transparent',
+                        border: 'none',
                         marginRight: 5,
                         cursor: "pointer",
+                        padding: '5',
+                        width: 'fit-content'
                       }}
                       key={action.name}
+                      tooltip={action.label}
+                      tooltipOptions={{position: 'bottom'}}
+                      icon={action.icon}
                       onClick={() => props.handleAction({action, row})}
                     >
-                      {action.label}
-                    </span>
+                    </Button>
                   ))}
               </TableCell>
             </TableRow>

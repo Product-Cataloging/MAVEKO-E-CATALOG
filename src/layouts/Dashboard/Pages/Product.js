@@ -21,8 +21,8 @@ class Product extends Component {
     const rows = this.state.products;
 
     const actions = [
-      { label: "Edit", name: "edit", color: "var(--blue)" },
-      { label: "Items", name: "items", color: "var(--light-blue)" },
+      { label: "Edit", name: "edit", color: "var(--blue)", icon: 'pi pi-pencil' },
+      { label: "Items", name: "items", color: "var(--light-blue)", icon: 'pi pi-list' },
     ];
 
     const columns = [

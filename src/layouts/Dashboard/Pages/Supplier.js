@@ -87,7 +87,7 @@ class Supplier extends Component {
   render() {
     const rows = this.state.suppliers;
 
-    const actions = [{ label: "Edit", name: "edit", color: "var(--blue)" }];
+    const actions = [{ label: "Edit", name: "edit", color: "var(--blue)", icon: 'pi pi-pencil' }];
 
     const columns = [
       { label: "Company Name", name: "company_name" },
