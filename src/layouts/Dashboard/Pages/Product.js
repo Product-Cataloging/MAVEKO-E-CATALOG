@@ -21,7 +21,7 @@ class Product extends Component {
 
     const actions = [
       { label: "Edit", name: "edit", color: "var(--blue)" },
-      { label: "Items", name: "items", color: "#6b94b0" },
+      { label: "Items", name: "items", color: "var(--light-blue)" },
     ];
 
     const columns = [

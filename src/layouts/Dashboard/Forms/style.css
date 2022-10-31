@@ -1,0 +1,16 @@
+.inputField{
+    width: 100%;
+    
+}
+.inputField > *{
+    font-size: 14px
+}
+
+.inputContainer{
+    margin-bottom: 15px;
+    display: block;
+}
+.buttonsContainer{
+    display: flex;
+    justify-content: end;
+}
