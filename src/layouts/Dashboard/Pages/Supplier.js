@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { apiUrl } from "../../../environment";
+import { get, add, edit } from "../../../services/SupplierService";
 import TableComponent from "../../../components/Table/Table";
 import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
@@ -49,18 +49,27 @@ class Supplier extends Component {
   }
 
   componentDidMount() {
-    fetch(`${apiUrl}/suppliers`)
-      .then((response) => response.json())
-      .then((response) => this.setState({ suppliers: response.data }));
+    get().then((response) => this.setState({ suppliers: response.data }));
   }
 
   submitForm(event) {
     const id = event.id;
-    delete event.id;
-    if(id === null){
-      this.addSupplier(event);
-    }else{
-      this.updateSupplier(id, event)
+    if (id === null) {
+      delete event.id;
+      add(event).then((response) => {
+        this.setState((state) => ({
+          suppliers: [...state.suppliers, response.data],
+        }));
+      });
+    } else {
+      edit(id, event).then((response) => {
+        const suppliers = this.state.suppliers.filter(
+          (supplier) => supplier.id !== id
+        );
+        this.setState({
+          suppliers: [response.data, ...suppliers],
+        });
+      });
     }
     this.setState({ displayDialog: false });
   }
@@ -78,14 +87,6 @@ class Supplier extends Component {
 
   editActionClick(data) {
     this.setState({ formValue: data, displayDialog: true });
-  }
-
-  addSupplier(supplier){
-    console.log(supplier)
-  }
-
-  updateSupplier(id, supplier){
-    console.log(id, supplier)
   }
 
   render() {
@@ -109,7 +110,9 @@ class Supplier extends Component {
           icon="pi pi-plus-circle"
           className="p-button-primary p-button-raised p-button-sm"
           style={{ backgroundColor: "var(--blue)", ...this.style.button }}
-          onClick={() => this.setState({ formValue: this.EMPTY_FORM, displayDialog: true })}
+          onClick={() =>
+            this.setState({ formValue: this.EMPTY_FORM, displayDialog: true })
+          }
         />
       </React.Fragment>
     );
@@ -139,12 +142,19 @@ class Supplier extends Component {
           header="Suppliers From"
           visible={this.state.displayDialog}
           style={{ width: "50vw" }}
-          onHide={() => this.setState({  formValue: this.EMPTY_FORM, displayDialog: false })}
+          onHide={() =>
+            this.setState({ formValue: this.EMPTY_FORM, displayDialog: false })
+          }
         >
           <SupplierForm
             formValue={this.state.formValue}
             onSubmit={this.submitForm}
-            onClose={() => this.setState({  formValue: this.EMPTY_FORM, displayDialog: false })}
+            onClose={() =>
+              this.setState({
+                formValue: this.EMPTY_FORM,
+                displayDialog: false,
+              })
+            }
           />
         </Dialog>
       </div>
