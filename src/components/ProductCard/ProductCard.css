@@ -1,7 +1,13 @@
 #productCard{
-    max-width: 250px;
+  position: relative;
+  height: 58vh;
+    width: 250px;
     margin: 2%;
     box-shadow: 0 1px 3px rgba(231, 231, 231, 0.274);
+}
+
+img{
+  width: 100%;
 }
 
 #outlined-basic {
@@ -9,6 +15,9 @@
 }
 
 .show {
+  width: 85%;
+  position: absolute;
+  bottom: 3%;
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
