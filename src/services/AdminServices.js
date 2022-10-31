@@ -1,12 +1,12 @@
 import { apiUrl } from "../environment";
 
-export const get = async () => {
-  const response = await fetch(`${apiUrl}/suppliers`);
+export const get = async (path) => {
+  const response = await fetch(`${apiUrl}/${path}`);
   return await response.json();
 };
 
-export const add = async (supplier) => {
-  const response = await fetch(`${apiUrl}/suppliers`, {
+export const add = async (supplier, path) => {
+  const response = await fetch(`${apiUrl}/${path}`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -17,8 +17,8 @@ export const add = async (supplier) => {
   return await response.json();
 };
 
-export const edit = async (id, supplier) => {
-  const response = await fetch(`${apiUrl}/suppliers/${id}`, {
+export const edit = async (id, supplier, path) => {
+  const response = await fetch(`${apiUrl}/${path}/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
