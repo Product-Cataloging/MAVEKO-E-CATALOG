@@ -5,6 +5,7 @@ import TableComponent from "../../../components/Table/Table";
 class Quotation extends Component {
   constructor(props) {
     super(props);
+    this.props.getUrl({label: "Quotations", url: '/quotations'});
     this.state = {
       quotations: [],
     };

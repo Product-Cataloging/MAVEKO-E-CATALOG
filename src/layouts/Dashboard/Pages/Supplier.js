@@ -9,6 +9,7 @@ import SupplierForm from "../Forms/SupplierForm";
 class Supplier extends Component {
   constructor(props) {
     super(props);
+    this.props.getUrl({label: "Suppliers", url: '/suppliers'});
     this.EMPTY_FORM = {
       id: null,
       company_name: "",
@@ -30,12 +31,6 @@ class Supplier extends Component {
         marginRight: 10,
         padding: "10px 30px",
         border: "none",
-      },
-      circleButton: {
-        backgroundColor: "transparent",
-        border: "none",
-        padding: 8,
-        borderRadius: "50%",
       },
       toolbar: {
         marginBottom: 10,
@@ -119,9 +114,7 @@ class Supplier extends Component {
 
     const rightContents = (
       <React.Fragment>
-        <Button style={this.style.circleButton} className="p-button-raised">
-          <i className="pi pi-bell" style={{ color: "var(--blue)" }} />
-        </Button>
+
       </React.Fragment>
     );
 

@@ -5,6 +5,7 @@ import TableComponent from "../../../components/Table/Table";
 class Product extends Component {
   constructor(props) {
     super(props);
+    this.props.getUrl({label: "Products", url: '/products'});
     this.state = {
       products: [],
     };
