@@ -9,18 +9,20 @@ import SupplierForm from "../Forms/SupplierForm";
 class Supplier extends Component {
   constructor(props) {
     super(props);
+    this.EMPTY_FORM = {
+      id: null,
+      company_name: "",
+      email: "",
+      address_line: "",
+      primary_phone_number: "",
+      postal_code: "",
+      fax: "",
+    };
+
     this.state = {
       suppliers: [],
       displayDialog: false,
-      formValue: {
-        id: null,
-        company_name: "",
-        email: "",
-        address_line: "",
-        primary_phone_number: "",
-        postal_code: "",
-        fax: "",
-      },
+      formValue: this.EMPTY_FORM,
     };
 
     this.style = {
@@ -43,6 +45,7 @@ class Supplier extends Component {
     };
 
     this.submitForm = this.submitForm.bind(this);
+    this.handleActionClick = this.handleActionClick.bind(this);
   }
 
   componentDidMount() {
@@ -52,8 +55,37 @@ class Supplier extends Component {
   }
 
   submitForm(event) {
-    console.log(event.company_name.value);
+    const id = event.id;
+    delete event.id;
+    if(id === null){
+      this.addSupplier(event);
+    }else{
+      this.updateSupplier(id, event)
+    }
     this.setState({ displayDialog: false });
+  }
+
+  handleActionClick(event) {
+    switch (event.action.name) {
+      case "edit":
+        this.editActionClick(event.row);
+        break;
+      default:
+        console.log("Action name didn't match any key");
+        return;
+    }
+  }
+
+  editActionClick(data) {
+    this.setState({ formValue: data, displayDialog: true });
+  }
+
+  addSupplier(supplier){
+    console.log(supplier)
+  }
+
+  updateSupplier(id, supplier){
+    console.log(id, supplier)
   }
 
   render() {
@@ -77,7 +109,7 @@ class Supplier extends Component {
           icon="pi pi-plus-circle"
           className="p-button-primary p-button-raised p-button-sm"
           style={{ backgroundColor: "var(--blue)", ...this.style.button }}
-          onClick={() => this.setState({ displayDialog: true })}
+          onClick={() => this.setState({ formValue: this.EMPTY_FORM, displayDialog: true })}
         />
       </React.Fragment>
     );
@@ -85,10 +117,7 @@ class Supplier extends Component {
     const rightContents = (
       <React.Fragment>
         <Button style={this.style.circleButton} className="p-button-raised">
-          <i
-            className="pi pi-bell"
-            style={{ color: "var(--blue)" }}
-          />
+          <i className="pi pi-bell" style={{ color: "var(--blue)" }} />
         </Button>
       </React.Fragment>
     );
@@ -100,17 +129,22 @@ class Supplier extends Component {
           left={leftContents}
           right={rightContents}
         />
-        <TableComponent rows={rows} columns={columns} actions={actions} />
+        <TableComponent
+          rows={rows}
+          columns={columns}
+          actions={actions}
+          handleAction={this.handleActionClick}
+        />
         <Dialog
           header="Suppliers From"
           visible={this.state.displayDialog}
           style={{ width: "50vw" }}
-          onHide={() => this.setState({ displayDialog: false })}
+          onHide={() => this.setState({  formValue: this.EMPTY_FORM, displayDialog: false })}
         >
           <SupplierForm
             formValue={this.state.formValue}
             onSubmit={this.submitForm}
-            onClose={() => this.setState({ displayDialog: false })}
+            onClose={() => this.setState({  formValue: this.EMPTY_FORM, displayDialog: false })}
           />
         </Dialog>
       </div>

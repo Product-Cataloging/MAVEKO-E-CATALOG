@@ -45,6 +45,7 @@ const TableComponent = (props) => {
                         cursor: "pointer",
                       }}
                       key={action.name}
+                      onClick={() => props.handleAction({action, row})}
                     >
                       {action.label}
                     </span>

@@ -18,7 +18,7 @@ class SupplierForm extends Component {
 
   submitForm(event) {
     event.preventDefault();
-    this.props.onSubmit(event.target);
+    this.props.onSubmit(this.state);
   }
 
   render() {
