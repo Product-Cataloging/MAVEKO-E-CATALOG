@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { get, add, edit } from "../../../services/SupplierService";
+import { get, add, edit } from "../../../services/AdminServices";
+import { suppliers_path } from "../../../environment";
 import TableComponent from "../../../components/Table/Table";
 import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import SupplierForm from "../Forms/SupplierForm";
-
+import {style} from '../style';
 class Supplier extends Component {
   constructor(props) {
     super(props);
@@ -26,38 +27,25 @@ class Supplier extends Component {
       formValue: this.EMPTY_FORM,
     };
 
-    this.style = {
-      button: {
-        marginRight: 10,
-        padding: "10px 30px",
-        border: "none",
-      },
-      toolbar: {
-        marginBottom: 10,
-        borderRadius: 20,
-        backgroundColor: "white",
-      },
-    };
-
     this.submitForm = this.submitForm.bind(this);
     this.handleActionClick = this.handleActionClick.bind(this);
   }
 
   componentDidMount() {
-    get().then((response) => this.setState({ suppliers: response.data }));
+    get(suppliers_path).then((response) => this.setState({ suppliers: response.data }));
   }
 
   submitForm(event) {
     const id = event.id;
     if (id === null) {
       delete event.id;
-      add(event).then((response) => {
+      add(event, suppliers_path).then((response) => {
         this.setState((state) => ({
           suppliers: [...state.suppliers, response.data],
         }));
       });
     } else {
-      edit(id, event).then((response) => {
+      edit(id, event, suppliers_path).then((response) => {
         const suppliers = this.state.suppliers.filter(
           (supplier) => supplier.id !== id
         );
@@ -104,7 +92,7 @@ class Supplier extends Component {
           label="New"
           icon="pi pi-plus-circle"
           className="p-button-primary p-button-raised p-button-sm"
-          style={{ backgroundColor: "var(--blue)", ...this.style.button }}
+          style={{ backgroundColor: "var(--blue)", ...style.button }}
           onClick={() =>
             this.setState({ formValue: this.EMPTY_FORM, displayDialog: true })
           }
@@ -121,7 +109,7 @@ class Supplier extends Component {
     return (
       <div>
         <Toolbar
-          style={this.style.toolbar}
+          style={style.toolbar}
           left={leftContents}
           right={rightContents}
         />
