@@ -11,6 +11,7 @@ import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
 import { BreadCrumb } from "primereact/breadcrumb";
 import { style } from "./style";
+import Notification from "./Pages/Notification";
 
 const Admin = (props) => {
   const [breadCrumb, setBreadCrumb] = useState([]);
@@ -24,6 +25,10 @@ const Admin = (props) => {
 
   const navigaetToUsersPage = () => {
     navigate("/users");
+  };
+  
+  const navigaetToNotificationsPage = () => {
+    navigate("/notifications");
   };
   const leftContents = (
     <React.Fragment>
@@ -39,8 +44,13 @@ const Admin = (props) => {
         icon="pi pi-users"
         label="Users"
         onClick={navigaetToUsersPage}
-      />
-      <Button style={style.circleButton} className="p-button-raised">
+        />
+
+      <Button
+        style={style.circleButton}
+        className="p-button-raised"
+        onClick={navigaetToNotificationsPage}
+      >
         <i className="pi pi-bell" />
       </Button>
     </React.Fragment>
@@ -94,6 +104,11 @@ const Admin = (props) => {
             exact
             path="/users"
             element={<User getUrl={currentUrl} />}
+          ></Route>
+          <Route
+            exact
+            path="/notifications"
+            element={<Notification getUrl={currentUrl} />}
           ></Route>
         </Routes>
       </div>
