@@ -13,3 +13,18 @@
     text-transform: uppercase;
     letter-spacing: 0.5rem;
 }
+
+.ais-SearchBox {
+    width: 50vw;
+    margin-bottom: 2em;
+}
+
+.ais-SearchBox-input{
+    border-radius: 2rem;
+    box-shadow: none;
+    background-color: #fafafa;
+}
+
+.ais-SearchBox-input:hover{
+    border-color: var(--blue);
+}
