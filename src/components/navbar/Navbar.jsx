@@ -20,7 +20,7 @@ export default function Navbar() {
               <a href="" className='pe-3'>Contact us</a>
             </nav>
             
-            <h1 className='logo'>MAVEKO</h1>
+            <h1 className='logo'><a href="/home">MAVEKO</a></h1>
   
             <nav className='d-flex'>
               <a href="" className='blank-element'></a>
@@ -29,12 +29,12 @@ export default function Navbar() {
             </nav>
         </section>
         <section className='category d-flex justify-content-center align-items-center text-center'>
-            <a href="">Tabletop & <br/>Dinnerware</a><span>|</span>
-            <a href="">Restaurant <br/>Equipment</a><span>|</span>
-            <a href="">Commercial <br/>Refrigeration</a><span>|</span>
-            <a href="">Smallwares</a><span>|</span>
-            <a href="">Storage & <br/>Transport</a><span>|</span>
-            <a href="">Disposables</a>
+            <a href="/category/17">Tabletop & <br/>Dinnerware</a><span>|</span>
+            <a href="/category/17">Restaurant <br/>Equipment</a><span>|</span>
+            <a href="/category/17">Commercial <br/>Refrigeration</a><span>|</span>
+            <a href="/category/17">Smallwares</a><span>|</span>
+            <a href="/category/17">Storage & <br/>Transport</a><span>|</span>
+            <a href="/category/17">Disposables</a>
         </section>
     </div>
   )

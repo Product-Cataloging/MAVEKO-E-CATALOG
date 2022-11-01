@@ -2,7 +2,7 @@
     display: flex;
     padding: 10px;
     margin-left: 15px;
-    width: 97%;
+    width: 99%;
 }
 
 .leftView{
@@ -10,7 +10,7 @@
     margin-top: 25px;
     position: sticky;
     top: 1.5%;
-    height: 83vh;
+    height: 73vh;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -20,7 +20,7 @@
     top: 0%;
     background-color: #fff;
     align-items: center;
-    width: 94%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 25px;
@@ -31,6 +31,6 @@
 .rightView{
     width: 80%;
     margin-left: 30px;
-    height: 86vh;
+    height: 73vh;
     overflow-y: auto;
 }
