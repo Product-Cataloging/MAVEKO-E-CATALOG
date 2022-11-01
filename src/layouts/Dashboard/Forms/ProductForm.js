@@ -19,7 +19,6 @@ class ProductForm extends Component {
   }
 
   handleChange(event) {
-    console.log(event);
     this.setState((state) => ({
       formValue: {
         ...state.formValue,
