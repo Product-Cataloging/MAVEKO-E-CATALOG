@@ -20,7 +20,7 @@ const Search = () => (
 export default function Home() {
   return (
     <div>
-        <Navbar/>
+        {/* <Navbar/> */}
         <div className='hero text-center mt-5 d-flex flex-column align-items-center'>
           <Search/>
           <h5>Reliability and passion for warmhearted engagement made us what we are today</h5>
