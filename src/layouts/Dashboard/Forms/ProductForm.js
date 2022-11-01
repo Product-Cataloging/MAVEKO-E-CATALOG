@@ -6,37 +6,20 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { categories_path } from "../../../environment";
-import { get } from "../../../services/AdminServices";
-
-import { Dropdown } from 'primereact/dropdown';
- 
 
 class ProductForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { formValue: { ...props.formValue }, categories: [] };
+    this.state = {
+      formValue: { ...props.formValue },
+      categories: [...props.categories],
+    };
     this.handleChange = this.handleChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
 
-  componentDidMount() {
-    get(categories_path).then((response) => {
-      let data = response.data;
-      let categories = [];
-      for (const key in data) {
-        if (data[key].children.length > 0) {
-          data[key].children.forEach((category) => {
-            categories.push(category);
-          });
-        }
-      }
-      this.setState({ categories: categories });
-    });
-  }
-
   handleChange(event) {
-    console.log(event)
+    console.log(event);
     this.setState((state) => ({
       formValue: {
         ...state.formValue,
@@ -103,26 +86,21 @@ class ProductForm extends Component {
         </div>
         <div className="inputContainer">
           <FormControl required variant="standard" className="inputField">
-            <InputLabel id="categoryLabel">Age</InputLabel>
+            <InputLabel id="categoryLabel">Product Category</InputLabel>
             <Select
               labelId="categoryLabel"
               id="category_id"
               name="category_id"
               value={this.state.formValue.category_id}
-              label="Product Category"
               onChange={this.handleChange}
             >
               {this.state.categories.map((category) => (
-                <MenuItem value={category.id}>{category.name}</MenuItem>
+                <MenuItem key={category.id} value={category.id}>
+                  {category.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
-          {/* <select value="1">
-            <option value = "1">One</option>
-            <option value = "2">Two</option>
-            <option value = "3">Three</option>
-            <option value = "4">Four</option>
-          </select> */}
         </div>
 
         <div className="buttonsContainer">

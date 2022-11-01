@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { products_path } from "../../../environment";
+import { products_path, categories_path } from "../../../environment";
 import { get, add, edit } from "../../../services/AdminServices";
 import TableComponent from "../../../components/Table/Table";
 import { Toolbar } from "primereact/toolbar";
@@ -18,10 +18,11 @@ class Product extends Component {
       brand: "",
       description: "",
       image_url: "",
-      category_id: '',
+      category_id: "",
     };
     this.state = {
       products: [],
+      categories: [],
       displayDialog: false,
       formValue: this.EMPTY_FORM,
     };
@@ -33,6 +34,19 @@ class Product extends Component {
     get(products_path).then((response) =>
       this.setState({ products: response.data })
     );
+
+    get(categories_path).then((response) => {
+      let data = response.data;
+      let categories = [];
+      for (const key in data) {
+        if (data[key].children.length > 0) {
+          data[key].children.forEach((category) => {
+            categories.push(category);
+          });
+        }
+      }
+      this.setState({ categories: categories });
+    });
   }
 
   submitForm(event) {
@@ -121,7 +135,12 @@ class Product extends Component {
           left={leftContents}
           right={rightContents}
         />
-        <TableComponent rows={rows} columns={columns} actions={actions} handleAction={this.handleActionClick}/>
+        <TableComponent
+          rows={rows}
+          columns={columns}
+          actions={actions}
+          handleAction={this.handleActionClick}
+        />
         <Dialog
           header="Products From"
           visible={this.state.displayDialog}
@@ -132,6 +151,7 @@ class Product extends Component {
         >
           <ProductForm
             formValue={this.state.formValue}
+            categories={this.state.categories}
             onSubmit={this.submitForm}
             onClose={() =>
               this.setState({

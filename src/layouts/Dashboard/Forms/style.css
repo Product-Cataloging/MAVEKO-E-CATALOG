@@ -1,16 +1,16 @@
-.inputField{
-    width: 100%;
-    
-}
-.inputField > *{
-    font-size: 14px
+.inputField {
+  width: 100%;
 }
 
-.inputContainer{
-    margin-bottom: 15px;
-    display: block;
+#menu-category_id {
+  z-index: 10000; /*to fix dropdown select options appearing below dialog box*/
 }
-.buttonsContainer{
-    display: flex;
-    justify-content: end;
+
+.inputContainer {
+  margin-bottom: 15px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: end;
 }
