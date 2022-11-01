@@ -20,8 +20,6 @@ class Quotation extends Component {
   render() {
     const rows = this.state.quotations;
 
-    const actions = [{ label: "Edit", name: "edit", color: "var(--blue)", icon: 'pi pi-pencil' }];
-
     const columns = [
       { label: "First Name", name: "first_name" },
       { label: "Last Name", name: "last_name" },
@@ -36,7 +34,7 @@ class Quotation extends Component {
 
     return (
       <div>
-        <TableComponent rows={rows} columns={columns} actions={actions} />
+        <TableComponent rows={rows} columns={columns} />
       </div>
     );
   }
