@@ -6,13 +6,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button } from 'primereact/button';
+import { Button } from "primereact/button";
 
 const TableComponent = (props) => {
   const { rows, columns, actions } = props;
 
   return (
-    <TableContainer style={{padding: '0 10px', borderRadius: 20, boxSizing: 'border-box'}} component={Paper}>
+    <TableContainer
+      style={{ padding: "0 10px", borderRadius: 20, boxSizing: "border-box" }}
+      component={Paper}
+    >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -29,11 +32,13 @@ const TableComponent = (props) => {
         <TableBody>
           {rows.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {columns.map((column) => (
-                <TableCell key={column.name}>{row[column.name]}</TableCell>
+                <TableCell key={column.name}>
+                  <span>{row[column.name]}</span>
+                </TableCell>
               ))}
               <TableCell align="center" style={{ fontWeight: "bolder" }}>
                 {actions &&
@@ -41,20 +46,19 @@ const TableComponent = (props) => {
                     <Button
                       style={{
                         color: action.color,
-                        backgroundColor: 'transparent',
-                        border: 'none',
+                        backgroundColor: "transparent",
+                        border: "none",
                         marginRight: 5,
                         cursor: "pointer",
-                        padding: '5',
-                        width: 'fit-content'
+                        padding: "5",
+                        width: "fit-content",
                       }}
                       key={action.name}
                       tooltip={action.label}
-                      tooltipOptions={{position: 'bottom'}}
+                      tooltipOptions={{ position: "bottom" }}
                       icon={action.icon}
-                      onClick={() => props.handleAction({action, row})}
-                    >
-                    </Button>
+                      onClick={() => props.handleAction({ action, row })}
+                    ></Button>
                   ))}
               </TableCell>
             </TableRow>
