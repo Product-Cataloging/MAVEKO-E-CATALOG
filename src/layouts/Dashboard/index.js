@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import DashboardNavbar from "../../components/Navbar/DashboardNavbar";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import Supplier from "./Pages/Supplier";
 import Product from "./Pages/Product";
@@ -14,6 +14,7 @@ import { style } from "./style";
 
 const Admin = (props) => {
   const [breadCrumb, setBreadCrumb] = useState([]);
+  const navigate = useNavigate();
 
   const home = { icon: "pi pi-home", url: "/dashboard" };
 
@@ -21,6 +22,9 @@ const Admin = (props) => {
     setBreadCrumb([event]);
   };
 
+  const navigaetToUsersPage = () => {
+    navigate("/users");
+  };
   const leftContents = (
     <React.Fragment>
       <BreadCrumb style={style.breadCrumb} model={breadCrumb} home={home} />
@@ -34,6 +38,7 @@ const Admin = (props) => {
         className="p-button-raised p-button-text p-button-sm"
         icon="pi pi-users"
         label="Users"
+        onClick={navigaetToUsersPage}
       />
       <Button style={style.circleButton} className="p-button-raised">
         <i className="pi pi-bell" />
