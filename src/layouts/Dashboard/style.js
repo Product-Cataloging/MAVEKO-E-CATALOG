@@ -9,4 +9,27 @@ export const style = {
     borderRadius: 20,
     backgroundColor: "white",
   },
+  circleButton: {
+    backgroundColor: "white",
+    border: "none",
+    color: "var(--blue)",
+    padding: 10,
+    borderRadius: "50%",
+    marginRight: 5,
+  },
+  headerToolbar: {
+    marginBottom: 10,
+    backgroundColor: "transparent",
+    border: "none",
+  },
+  breadCrumb: {
+    backgroundColor: "transparent",
+    border: "none",
+    fontSize: "14px",
+  },
+  usersBtn: {
+    backgroundColor: "white",
+    color: "var(--blue)",
+    padding: "10px 20px",
+  },
 };

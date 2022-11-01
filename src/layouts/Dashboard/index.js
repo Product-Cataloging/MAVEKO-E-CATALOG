@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import DashboardNavbar from "../../components/Navbar/DashboardNavbar";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
@@ -10,107 +10,90 @@ import User from "./Pages/User";
 import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
 import { BreadCrumb } from "primereact/breadcrumb";
+import { style } from "./style";
 
-class Admin extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { breadCrumb: [] };
-    this.style = {
-      circleButton: {
-        backgroundColor: "transparent",
-        border: "none",
-        padding: 8,
-        borderRadius: "50%",
-      },
-      toolbar: {
-        marginBottom: 10,
-        backgroundColor: "transparent",
-        border: "none",
-      },
-      breadCrumb: {
-        backgroundColor: 'transparent',
-        border: 'none',
-        fontSize: '14px',
-      }
-    };
-    this.currentUrl = this.currentUrl.bind(this);
-  }
+const Admin = (props) => {
+  const [breadCrumb, setBreadCrumb] = useState([]);
 
-  home = { icon: "pi pi-home", url: "/dashboard" };
+  const home = { icon: "pi pi-home", url: "/dashboard" };
 
-  currentUrl(event) {
-    this.setState({ breadCrumb: [event] });
-  }
+  const currentUrl = (event) => {
+    setBreadCrumb([event]);
+  };
 
-  render() {
-    const leftContents = (
-      <React.Fragment>
-        <BreadCrumb style={this.style.breadCrumb} model={this.state.breadCrumb} home={this.home} />
-      </React.Fragment>
-    );
+  const leftContents = (
+    <React.Fragment>
+      <BreadCrumb style={style.breadCrumb} model={breadCrumb} home={home} />
+    </React.Fragment>
+  );
 
-    const rightContents = (
-      <React.Fragment>
-        <Button style={this.style.circleButton} className="p-button-raised">
-          <i className="pi pi-bell" style={{ color: "var(--blue)" }} />
-        </Button>
-      </React.Fragment>
-    );
+  const rightContents = (
+    <React.Fragment>
+      <Button
+        style={{ ...style.button, ...style.usersBtn }}
+        className="p-button-raised p-button-text p-button-sm"
+        icon="pi pi-users"
+        label="Users"
+      />
+      <Button style={style.circleButton} className="p-button-raised">
+        <i className="pi pi-bell" />
+      </Button>
+    </React.Fragment>
+  );
 
-    return (
-      <div style={{ display: "flex", backgroundColor: "var(--gray)" }}>
-        <DashboardNavbar />
-        <div
-          style={{
-            padding: "15px",
-            flexGrow: 1,
-            maxHeight: "100vh",
-            paddingRight: 20,
-            overflow: "auto",
-            boxSizing: "border-box",
-          }}
-        >
-          <Toolbar
-            style={this.style.toolbar}
-            left={leftContents}
-            right={rightContents}
-          />
-          <Routes>
-            <Route
-              exact
-              path="/dashboard"
-              element={<Dashboard getUrl={this.currentUrl} />}
-            ></Route>
-            <Route
-              exact
-              path="/suppliers"
-              element={<Supplier getUrl={this.currentUrl} />}
-            ></Route>
-            <Route
-              exact
-              path="/products"
-              element={<Product getUrl={this.currentUrl} />}
-            ></Route>
-            <Route
-              exact
-              path="/products/:id"
-              element={<ProductItem getUrl={this.currentUrl} />}
-            ></Route>
-            <Route
-              exact
-              path="/quotations"
-              element={<Quotation getUrl={this.currentUrl} />}
-            ></Route>
-            <Route
-              exact
-              path="/users"
-              element={<User getUrl={this.currentUrl} />}
-            ></Route>
-          </Routes>
-        </div>
+  return (
+    <div style={{ display: "flex", backgroundColor: "var(--gray)" }}>
+      <DashboardNavbar />
+      <div
+        style={{
+          padding: "15px",
+          flexGrow: 1,
+          maxHeight: "100vh",
+          paddingRight: 20,
+          overflow: "auto",
+          boxSizing: "border-box",
+        }}
+      >
+        <Toolbar
+          style={style.headerToolbar}
+          left={leftContents}
+          right={rightContents}
+        />
+        <Routes>
+          <Route
+            exact
+            path="/dashboard"
+            element={<Dashboard getUrl={currentUrl} />}
+          ></Route>
+          <Route
+            exact
+            path="/suppliers"
+            element={<Supplier getUrl={currentUrl} />}
+          ></Route>
+          <Route
+            exact
+            path="/products"
+            element={<Product getUrl={currentUrl} />}
+          ></Route>
+          <Route
+            exact
+            path="/products/:id"
+            element={<ProductItem getUrl={currentUrl} />}
+          ></Route>
+          <Route
+            exact
+            path="/quotations"
+            element={<Quotation getUrl={currentUrl} />}
+          ></Route>
+          <Route
+            exact
+            path="/users"
+            element={<User getUrl={currentUrl} />}
+          ></Route>
+        </Routes>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Admin;
