@@ -5,7 +5,7 @@ import ProductList from "../../components/ProductList/ProductList";
 import FilterMenu from "../../components/FilterMenu/FilterMenu";
 import { useParams } from "react-router-dom";
 
-export default function ProductsLayout() {
+export default function ProductsLayout(props) {
   const params = useParams();
   const filters = [];
   const items = [];

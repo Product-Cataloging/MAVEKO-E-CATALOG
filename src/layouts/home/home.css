@@ -1,0 +1,30 @@
+.hero {
+    background: url('../../assets/images/ocean.webp');
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position: bottom;
+    height: 78.6vh;
+    overflow: hidden;
+}
+
+.hero > h1 {
+    font-family: 'CeraProBlack';
+    line-height: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+}
+
+.ais-SearchBox {
+    width: 50vw;
+    margin-bottom: 2em;
+}
+
+.ais-SearchBox-input{
+    border-radius: 2rem;
+    box-shadow: none;
+    background-color: #fafafa;
+}
+
+.ais-SearchBox-input:hover{
+    border-color: var(--blue);
+}
