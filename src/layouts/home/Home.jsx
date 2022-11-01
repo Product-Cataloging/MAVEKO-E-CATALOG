@@ -12,9 +12,6 @@ const Search = () => (
                translations={{
                     placeholder: 'Search from 400,000+ products'
                     }}
-               onSubmit={event => {
-                event.
-               }}
                     />
   </InstantSearch>
 );
