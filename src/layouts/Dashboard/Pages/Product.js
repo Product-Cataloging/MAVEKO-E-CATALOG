@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { products_path, categories_path } from "../../../environment";
 import { get, add, edit } from "../../../services/AdminServices";
 import TableComponent from "../../../components/Table/Table";
@@ -7,30 +7,27 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import ProductForm from "../Forms/ProductForm";
 import { style } from "../style";
+import { useNavigate } from "react-router-dom";
 
-class Product extends Component {
-  constructor(props) {
-    super(props);
-    this.props.getUrl({ label: "Products", url: "/products" });
-    this.EMPTY_FORM = {
-      id: null,
-      name: "",
-      brand: "",
-      description: "",
-      image_url: "",
-      category_id: "",
-    };
-    this.state = {
-      products: [],
-      categories: [],
-      displayDialog: false,
-      formValue: this.EMPTY_FORM,
-    };
-    this.submitForm = this.submitForm.bind(this);
-    this.handleActionClick = this.handleActionClick.bind(this);
-  }
+const Product = (props) => {
+  const EMPTY_FORM = {
+    id: null,
+    name: "",
+    brand: "",
+    description: "",
+    image_url: "",
+    category_id: "",
+  };
+  const navigate = useNavigate();
 
-  componentDidMount() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [displayDialog, setDialog] = useState(false);
+  const [formValue, setFormValue] = useState(EMPTY_FORM);
+
+  useEffect(() => {
+    props.getUrl({ label: "Products", url: "/products" });
+
     get(products_path).then((response) => {
       response.data.map((res, index) => {
         response.data[index].image_url = (
@@ -39,143 +36,141 @@ class Product extends Component {
           </a>
         );
       });
-      this.setState({ products: response.data });
+      setProducts(response.data);
     });
 
     get(categories_path).then((response) => {
       let data = response.data;
-      let categories = [];
+      let categoriesList = [];
       for (const key in data) {
         if (data[key].children.length > 0) {
           data[key].children.forEach((category) => {
-            categories.push(category);
+            categoriesList.push(category);
           });
         }
       }
-      this.setState({ categories: categories });
+      setCategories(categoriesList);
     });
-  }
+  }, []);
 
-  submitForm(event) {
+  const submitForm = (event) => {
     const id = event.id;
     if (id === null) {
       delete event.id;
       add(event, products_path).then((response) => {
-        this.setState((state) => ({
-          products: [...state.products, response.data],
-        }));
+        setProducts((prevProducts) => [...prevProducts, response.data]);
       });
     } else {
       edit(id, event, products_path).then((response) => {
-        const products = this.state.products.filter(
-          (product) => product.id !== id
-        );
+        const oldProducts = products.filter((product) => product.id !== id);
         response.data.image_url = (
           <a href={response.data.image_url} target="_blank">
             {response.data.image_url.substr(0, 25)}...
           </a>
         );
-        this.setState({
-          products: [response.data, ...products],
-        });
+        setProducts([response.data, ...oldProducts]);
       });
     }
-    this.setState({ displayDialog: false });
-  }
+    setDialog(false);
+  };
 
-  handleActionClick(event) {
+  const handleActionClick = (event) => {
     switch (event.action.name) {
       case "edit":
-        this.editActionClick(event.row);
+        editActionClick(event.row);
+        break;
+      case "items":
+        navigate(`/products/${event.row.id}`)
         break;
       default:
         console.log("Action name didn't match any key");
         return;
     }
-  }
+  };
 
-  editActionClick(data) {
-    this.setState({ formValue: {...data, image_url: data.image_url.props.href}, displayDialog: true });
-  }
-
-  render() {
-    const rows = this.state.products;
-
-    const actions = [
-      {
-        label: "Edit",
-        name: "edit",
-        color: "var(--blue)",
-        icon: "pi pi-pencil",
-      },
-      {
-        label: "Items",
-        name: "items",
-        color: "var(--light-blue)",
-        icon: "pi pi-list",
-      },
-    ];
-
-    const columns = [
-      { label: "Product Name", name: "name" },
-      { label: "Brand", name: "brand" },
-      { label: "Description", name: "description" },
-      { label: "Image Url", name: "image_url" },
-      { label: "Category Name", name: "category_name" },
-    ];
-
-    const leftContents = (
-      <React.Fragment>
-        <Button
-          label="New"
-          icon="pi pi-plus-circle"
-          className="p-button-primary p-button-raised p-button-sm"
-          style={{ backgroundColor: "var(--blue)", ...style.button }}
-          onClick={() =>
-            this.setState({ formValue: this.EMPTY_FORM, displayDialog: true })
-          }
-        />
-      </React.Fragment>
+  const editActionClick = (data) => {
+    setFormValue(
+      { ...data, image_url: data.image_url.props.href },
+      setDialog(true)
     );
+  };
 
-    const rightContents = <React.Fragment></React.Fragment>;
+  const rows = products;
 
-    return (
-      <div>
-        <Toolbar
-          style={style.toolbar}
-          left={leftContents}
-          right={rightContents}
+  const actions = [
+    {
+      label: "Edit",
+      name: "edit",
+      color: "var(--blue)",
+      icon: "pi pi-pencil",
+    },
+    {
+      label: "Items",
+      name: "items",
+      color: "var(--light-blue)",
+      icon: "pi pi-list",
+    },
+  ];
+
+  const columns = [
+    { label: "Product Name", name: "name" },
+    { label: "Brand", name: "brand" },
+    { label: "Description", name: "description" },
+    { label: "Image Url", name: "image_url" },
+    { label: "Category Name", name: "category_name" },
+  ];
+
+  const leftContents = (
+    <React.Fragment>
+      <Button
+        label="New"
+        icon="pi pi-plus-circle"
+        className="p-button-primary p-button-raised p-button-sm"
+        style={{ backgroundColor: "var(--blue)", ...style.button }}
+        onClick={() => {
+          setFormValue(EMPTY_FORM);
+          setDialog(true);
+        }}
+      />
+    </React.Fragment>
+  );
+
+  const rightContents = <React.Fragment></React.Fragment>;
+
+  return (
+    <div>
+      <Toolbar
+        style={style.toolbar}
+        left={leftContents}
+        right={rightContents}
+      />
+      <TableComponent
+        rows={rows}
+        columns={columns}
+        actions={actions}
+        handleAction={handleActionClick}
+      />
+      <Dialog
+        header="Products From"
+        visible={displayDialog}
+        style={{ width: "50vw" }}
+        onHide={() => {
+          setFormValue(EMPTY_FORM);
+          setDialog(false);
+        }}
+      >
+        <ProductForm
+          formValue={formValue}
+          categories={categories}
+          onSubmit={submitForm}
+          onClose={() => {
+            setFormValue(EMPTY_FORM);
+            setDialog(false);
+          }}
         />
-        <TableComponent
-          rows={rows}
-          columns={columns}
-          actions={actions}
-          handleAction={this.handleActionClick}
-        />
-        <Dialog
-          header="Products From"
-          visible={this.state.displayDialog}
-          style={{ width: "50vw" }}
-          onHide={() =>
-            this.setState({ formValue: this.EMPTY_FORM, displayDialog: false })
-          }
-        >
-          <ProductForm
-            formValue={this.state.formValue}
-            categories={this.state.categories}
-            onSubmit={this.submitForm}
-            onClose={() =>
-              this.setState({
-                formValue: this.EMPTY_FORM,
-                displayDialog: false,
-              })
-            }
-          />
-        </Dialog>
-      </div>
-    );
-  }
-}
+      </Dialog>
+    </div>
+  );
+};
 
 export default Product;
