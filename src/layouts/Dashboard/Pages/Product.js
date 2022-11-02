@@ -70,6 +70,11 @@ class Product extends Component {
         const products = this.state.products.filter(
           (product) => product.id !== id
         );
+        response.data.image_url = (
+          <a href={response.data.image_url} target="_blank">
+            {response.data.image_url.substr(0, 25)}...
+          </a>
+        );
         this.setState({
           products: [response.data, ...products],
         });
@@ -90,7 +95,7 @@ class Product extends Component {
   }
 
   editActionClick(data) {
-    this.setState({ formValue: data, displayDialog: true });
+    this.setState({ formValue: {...data, image_url: data.image_url.props.href}, displayDialog: true });
   }
 
   render() {
