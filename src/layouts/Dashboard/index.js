@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import DashboardNavbar from "../../components/Navbar/DashboardNavbar";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
@@ -12,9 +12,23 @@ import { Button } from "primereact/button";
 import { BreadCrumb } from "primereact/breadcrumb";
 import { style } from "./style";
 import Notification from "./Pages/Notification";
+import { Badge } from "primereact/badge";
+import {
+  unread_notifications_path,
+  notifications_path,
+} from "../../environment";
+import { edit, get } from "../../services/AdminServices";
 
 const Admin = (props) => {
   const [breadCrumb, setBreadCrumb] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    get(unread_notifications_path).then((response) => {
+      setNotifications(response.data);
+    });
+  }, []);
+
   const navigate = useNavigate();
 
   const home = { icon: "pi pi-home", url: "/dashboard" };
@@ -26,10 +40,21 @@ const Admin = (props) => {
   const navigaetToUsersPage = () => {
     navigate("/users");
   };
-  
+
   const navigaetToNotificationsPage = () => {
     navigate("/notifications");
   };
+
+  const changeStatusToRead = (notification) => {
+    edit(
+      notification.id,
+      { ...notification, status: "Read" },
+      notifications_path
+    ).then((response) => {
+      setNotifications(notifications.filter((n) => n.id != response.data.id));
+    });
+  };
+
   const leftContents = (
     <React.Fragment>
       <BreadCrumb style={style.breadCrumb} model={breadCrumb} home={home} />
@@ -44,14 +69,21 @@ const Admin = (props) => {
         icon="pi pi-users"
         label="Users"
         onClick={navigaetToUsersPage}
-        />
+      />
 
       <Button
-        style={style.circleButton}
+        style={{...style.circleButton, overflow: 'visible'}}
         className="p-button-raised"
         onClick={navigaetToNotificationsPage}
       >
-        <i className="pi pi-bell" />
+        <i className="pi pi-bell p-overlay-badge">
+          <Badge
+            value={notifications.length}
+            style={{ fontSize: "10px" }}
+            size="small"
+            severity={notifications.length == 0 ? "secondary" : "info"}
+          ></Badge>
+        </i>
       </Button>
     </React.Fragment>
   );
@@ -108,7 +140,13 @@ const Admin = (props) => {
           <Route
             exact
             path="/notifications"
-            element={<Notification getUrl={currentUrl} />}
+            element={
+              <Notification
+                notifications={notifications}
+                onReadNotification={changeStatusToRead}
+                getUrl={currentUrl}
+              />
+            }
           ></Route>
         </Routes>
       </div>

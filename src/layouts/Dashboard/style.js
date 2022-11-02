@@ -13,7 +13,7 @@ export const style = {
     backgroundColor: "white",
     border: "none",
     color: "var(--blue)",
-    padding: 10,
+    padding: 13,
     borderRadius: "50%",
     marginRight: 5,
   },
