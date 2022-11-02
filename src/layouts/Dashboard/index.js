@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import Supplier from "./Pages/Supplier";
 import Product from "./Pages/Product";
+import Order from "./Pages/Order";
 import Quotation from "./Pages/Quotation";
 import User from "./Pages/User";
 import { Toolbar } from "primereact/toolbar";
@@ -68,7 +69,7 @@ const Admin = (props) => {
       />
 
       <Button
-        style={{...style.circleButton, overflow: 'visible'}}
+        style={{ ...style.circleButton, overflow: "visible" }}
         className="p-button-raised"
         onClick={navigaetToNotificationsPage}
       >
@@ -117,6 +118,16 @@ const Admin = (props) => {
             exact
             path="/products"
             element={<Product getUrl={currentUrl} />}
+          ></Route>
+          <Route 
+            exact
+            path="/orders"
+            element={<Order getUrl={currentUrl} />}
+          ></Route>
+          <Route 
+            exact
+            path="/orders/:id"
+            element={<Order getUrl={currentUrl} />}
           ></Route>
           <Route
             exact

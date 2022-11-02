@@ -19,6 +19,11 @@ class DashboardNavbar extends Component {
         icon: <i className="pi pi-box"></i>,
       },
       {
+        name: "Orders",
+        route: "/orders",
+        icon: <i className="pi pi-shopping-cart"></i>,
+      },
+      {
         name: "Quotation Requests",
         route: "/quotations",
         icon: <i className="pi pi-file"></i>,
