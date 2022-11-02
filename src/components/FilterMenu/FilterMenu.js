@@ -84,7 +84,7 @@ export default function FilterMenu({ setProduct }) {
 
   return (
     <div className="sidebarFilterMenu">
-      <div className="filterMenu">
+      {/* <div className="filterMenu">
         <div className="filterTitle">
           <h3>Supplier</h3>
         </div>
@@ -92,7 +92,7 @@ export default function FilterMenu({ setProduct }) {
         <div className="filterValues">
           <RadioGroup>{suppliers}</RadioGroup>
         </div>
-      </div>
+      </div> */}
 
       <div className="filterMenu">
         <div className="filterTitle">
