@@ -16,7 +16,7 @@ const TableComponent = (props) => {
       style={{ padding: "0 10px", borderRadius: 20, boxSizing: "border-box" }}
       component={Paper}
     >
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             {columns.map((column) => (
@@ -30,39 +30,55 @@ const TableComponent = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              {columns.map((column) => (
-                <TableCell key={column.name}>
-                  <span>{row[column.name]}</span>
+          {rows.length > 0 ? (
+            rows.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                {columns.map((column) => (
+                  <TableCell key={column.name}>
+                    <span>{row[column.name]}</span>
+                  </TableCell>
+                ))}
+                <TableCell align="center" style={{ fontWeight: "bolder" }}>
+                  {actions &&
+                    actions.map((action) => (
+                      <Button
+                        style={{
+                          color: action.color,
+                          backgroundColor: "transparent",
+                          border: "none",
+                          marginRight: 5,
+                          cursor: "pointer",
+                          padding: "5",
+                          width: "fit-content",
+                        }}
+                        key={action.name}
+                        tooltip={action.label}
+                        tooltipOptions={{ position: "bottom" }}
+                        icon={action.icon}
+                        onClick={() => props.handleAction({ action, row })}
+                      ></Button>
+                    ))}
                 </TableCell>
-              ))}
-              <TableCell align="center" style={{ fontWeight: "bolder" }}>
-                {actions &&
-                  actions.map((action) => (
-                    <Button
-                      style={{
-                        color: action.color,
-                        backgroundColor: "transparent",
-                        border: "none",
-                        marginRight: 5,
-                        cursor: "pointer",
-                        padding: "5",
-                        width: "fit-content",
-                      }}
-                      key={action.name}
-                      tooltip={action.label}
-                      tooltipOptions={{ position: "bottom" }}
-                      icon={action.icon}
-                      onClick={() => props.handleAction({ action, row })}
-                    ></Button>
-                  ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                style={{
+                  color: "gray",
+                  fontWeight: "bolder",
+                  padding: "20px",
+                }}
+                align="center"
+                colSpan={actions ? columns.length+1 : columns.length}
+              >
+                No Data Found
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </TableContainer>

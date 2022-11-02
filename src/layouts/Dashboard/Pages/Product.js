@@ -7,7 +7,6 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import ProductForm from "../Forms/ProductForm";
 import { style } from "../style";
-import { useNavigate } from "react-router-dom";
 
 const Product = (props) => {
   const EMPTY_FORM = {
@@ -18,7 +17,6 @@ const Product = (props) => {
     image_url: "",
     category_id: "",
   };
-  const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
