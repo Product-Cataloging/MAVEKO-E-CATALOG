@@ -79,9 +79,6 @@ const Product = (props) => {
       case "edit":
         editActionClick(event.row);
         break;
-      case "items":
-        navigate(`/products/${event.row.id}`)
-        break;
       default:
         console.log("Action name didn't match any key");
         return;
@@ -103,12 +100,6 @@ const Product = (props) => {
       name: "edit",
       color: "var(--blue)",
       icon: "pi pi-pencil",
-    },
-    {
-      label: "Items",
-      name: "items",
-      color: "var(--light-blue)",
-      icon: "pi pi-list",
     },
   ];
 

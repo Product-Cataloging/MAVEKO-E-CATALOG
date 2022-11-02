@@ -4,7 +4,6 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import Supplier from "./Pages/Supplier";
 import Product from "./Pages/Product";
-import ProductItem from "./Pages/ProductItem";
 import Quotation from "./Pages/Quotation";
 import User from "./Pages/User";
 import { Toolbar } from "primereact/toolbar";
@@ -13,10 +12,7 @@ import { BreadCrumb } from "primereact/breadcrumb";
 import { style } from "./style";
 import Notification from "./Pages/Notification";
 import { Badge } from "primereact/badge";
-import {
-  unread_notifications_path,
-  notifications_path,
-} from "../../environment";
+import { unread_notifications_path, notifications_path } from "../../environment";
 import { edit, get } from "../../services/AdminServices";
 
 const Admin = (props) => {
@@ -121,11 +117,6 @@ const Admin = (props) => {
             exact
             path="/products"
             element={<Product getUrl={currentUrl} />}
-          ></Route>
-          <Route
-            exact
-            path="/products/:id"
-            element={<ProductItem getUrl={currentUrl} />}
           ></Route>
           <Route
             exact
