@@ -24,7 +24,12 @@ const User = (props) => {
 
   useEffect(() => {
     props.getUrl({ label: "Users", url: "/users" });
-    get(users_path).then((response) => setUsers(response.data));
+    get(users_path).then((response) => {
+      response.data.map((res, index) => {
+        response.data[index].is_active = res.is_active.toString();
+      });
+      setUsers(response.data);
+    });
   }, []);
 
   const submitForm = (event) => {
@@ -60,8 +65,10 @@ const User = (props) => {
   );
 
   const rightContents = <React.Fragment></React.Fragment>;
-  const actions = [{ label: "Edit", name: "edit", color: "var(--blue)", icon: 'pi pi-pencil' }];
-const handleActionClick = ()=>{};
+  const actions = [
+    { label: "Edit", name: "edit", color: "var(--blue)", icon: "pi pi-pencil" },
+  ];
+  const handleActionClick = () => {};
   return (
     <div>
       <Toolbar
@@ -69,10 +76,7 @@ const handleActionClick = ()=>{};
         left={leftContents}
         right={rightContents}
       />
-      <TableComponent
-          rows={rows}
-          columns={columns}
-        />
+      <TableComponent rows={rows} columns={columns} />
       <Dialog
         header="Products From"
         visible={displayDialog}

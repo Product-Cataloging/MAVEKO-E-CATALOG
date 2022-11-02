@@ -31,9 +31,16 @@ class Product extends Component {
   }
 
   componentDidMount() {
-    get(products_path).then((response) =>
-      this.setState({ products: response.data })
-    );
+    get(products_path).then((response) => {
+      response.data.map((res, index) => {
+        response.data[index].image_url = (
+          <a href={res.image_url} target="_blank">
+            {res.image_url.substr(0, 25)}...
+          </a>
+        );
+      });
+      this.setState({ products: response.data });
+    });
 
     get(categories_path).then((response) => {
       let data = response.data;

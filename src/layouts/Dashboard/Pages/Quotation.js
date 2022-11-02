@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { apiUrl } from "../../../environment";
 import TableComponent from "../../../components/Table/Table";
+import { Tag } from "primereact/tag";
 
 class Quotation extends Component {
   constructor(props) {
     super(props);
-    this.props.getUrl({label: "Quotations", url: '/quotations'});
+    this.props.getUrl({ label: "Quotations", url: "/quotations" });
     this.state = {
       quotations: [],
     };
@@ -14,7 +15,25 @@ class Quotation extends Component {
   componentDidMount() {
     fetch(`${apiUrl}/quotation_requests`)
       .then((response) => response.json())
-      .then((response) => this.setState({ quotations: response.data }));
+      .then((response) => {
+        response.data.map((res, index) => {
+          response.data[index].image_url = (
+            <a href={res.image_url} target="_blank">
+              {res.image_url.substr(0, 25)}...
+            </a>
+          );
+          let severity = "primary";
+          if (res.status === "Addressed") {
+            severity = "success";
+          } else if (res.status === "Processing") {
+            severity = "warning";
+          }
+          response.data[index].status = (
+            <Tag severity={severity}>{res.status}</Tag>
+          );
+        });
+        this.setState({ quotations: response.data });
+      });
   }
 
   render() {
