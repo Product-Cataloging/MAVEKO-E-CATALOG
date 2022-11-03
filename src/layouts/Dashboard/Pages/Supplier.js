@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { get, add, edit } from "../../../services/AdminServices";
 import { suppliers_path } from "../../../environment";
 import TableComponent from "../../../components/Table/Table";
@@ -6,141 +6,127 @@ import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import SupplierForm from "../Forms/SupplierForm";
-import {style} from '../style';
-class Supplier extends Component {
-  constructor(props) {
-    super(props);
-    this.props.getUrl({label: "Suppliers", url: '/suppliers'});
-    this.EMPTY_FORM = {
-      id: null,
-      company_name: "",
-      email: "",
-      address_line: "",
-      primary_phone_number: "",
-      postal_code: "",
-      fax: "",
-    };
+import { style } from "../style";
 
-    this.state = {
-      suppliers: [],
-      displayDialog: false,
-      formValue: this.EMPTY_FORM,
-    };
+const Supplier = (props) => {
+  const EMPTY_FORM = {
+    id: null,
+    company_name: "",
+    email: "",
+    address_line: "",
+    primary_phone_number: "",
+    postal_code: "",
+    fax: "",
+  };
 
-    this.submitForm = this.submitForm.bind(this);
-    this.handleActionClick = this.handleActionClick.bind(this);
-  }
+  const [suppliers, setSuppliers] = useState([]);
+  const [displayDialog, setDialog] = useState(false);
+  const [formValue, setFormValue] = useState(EMPTY_FORM);
 
-  componentDidMount() {
-    get(suppliers_path).then((response) => this.setState({ suppliers: response.data }));
-  }
+  useEffect(() => {
+    props.getUrl({ label: "Suppliers", url: "/suppliers" });
 
-  submitForm(event) {
+    get(suppliers_path).then((response) => setSuppliers(response.data));
+  }, []);
+
+  const submitForm = (event) => {
     const id = event.id;
     if (id === null) {
       delete event.id;
       add(event, suppliers_path).then((response) => {
-        this.setState((state) => ({
-          suppliers: [...state.suppliers, response.data],
-        }));
+        setSuppliers((oldSuppliers) => [response.data, ...oldSuppliers]);
       });
     } else {
       edit(id, event, suppliers_path).then((response) => {
-        const suppliers = this.state.suppliers.filter(
-          (supplier) => supplier.id !== id
-        );
-        this.setState({
-          suppliers: [response.data, ...suppliers],
-        });
+        const oldSuppliers = suppliers.filter((sup) => sup.id !== id);
+        setSuppliers([response.data, ...oldSuppliers]);
       });
     }
-    this.setState({ displayDialog: false });
-  }
+    setDialog(false);
+  };
 
-  handleActionClick(event) {
+  const handleActionClick = (event) => {
     switch (event.action.name) {
       case "edit":
-        this.editActionClick(event.row);
+        editActionClick(event.row);
         break;
       default:
         console.log("Action name didn't match any key");
         return;
     }
-  }
+  };
 
-  editActionClick(data) {
-    this.setState({ formValue: data, displayDialog: true });
-  }
+  const editActionClick = (data) => {
+    setFormValue(data, setDialog(true));
+  };
 
-  render() {
-    const rows = this.state.suppliers;
+  const rows = suppliers;
 
-    const actions = [{ label: "Edit", name: "edit", color: "var(--blue)", icon: 'pi pi-pencil' }];
+  const actions = [
+    {
+      label: "Edit",
+      name: "edit",
+      color: "var(--blue)",
+      icon: "pi pi-pencil",
+    },
+  ];
 
-    const columns = [
-      { label: "Company Name", name: "company_name" },
-      { label: "Email", name: "email" },
-      { label: "Address Line", name: "address_line" },
-      { label: "Primary Phone Number", name: "primary_phone_number" },
-      { label: "Postal Code", name: "postal_code" },
-      { label: "Fax", name: "fax" },
-    ];
+  const columns = [
+    { label: "Company Name", name: "company_name" },
+    { label: "Email", name: "email" },
+    { label: "Address Line", name: "address_line" },
+    { label: "Primary Phone Number", name: "primary_phone_number" },
+    { label: "Postal Code", name: "postal_code" },
+    { label: "Fax", name: "fax" },
+  ];
 
-    const leftContents = (
-      <React.Fragment>
-        <Button
-          label="New"
-          icon="pi pi-plus-circle"
-          className="p-button-primary p-button-raised p-button-sm"
-          style={{ backgroundColor: "var(--blue)", ...style.button }}
-          onClick={() =>
-            this.setState({ formValue: this.EMPTY_FORM, displayDialog: true })
-          }
+  const leftContents = (
+    <React.Fragment>
+      <Button
+        label="New"
+        icon="pi pi-plus-circle"
+        className="p-button-primary p-button-raised p-button-sm"
+        style={{ backgroundColor: "var(--blue)", ...style.button }}
+        onClick={() => {
+          setFormValue(EMPTY_FORM, setDialog(true));
+        }}
+      />
+    </React.Fragment>
+  );
+
+  const rightContents = <React.Fragment></React.Fragment>;
+
+  return (
+    <div>
+      <Toolbar
+        style={style.toolbar}
+        left={leftContents}
+        right={rightContents}
+      />
+      <TableComponent
+        rows={rows}
+        columns={columns}
+        actions={actions}
+        handleAction={handleActionClick}
+      />
+      <Dialog
+        header="Suppliers From"
+        visible={displayDialog}
+        style={{ width: "50vw" }}
+        onHide={() => {
+          setFormValue(EMPTY_FORM, setDialog(false));
+        }}
+      >
+        <SupplierForm
+          formValue={formValue}
+          onSubmit={submitForm}
+          onClose={() => {
+            setFormValue(EMPTY_FORM, setDialog(false));
+          }}
         />
-      </React.Fragment>
-    );
-
-    const rightContents = (
-      <React.Fragment>
-
-      </React.Fragment>
-    );
-
-    return (
-      <div>
-        <Toolbar
-          style={style.toolbar}
-          left={leftContents}
-          right={rightContents}
-        />
-        <TableComponent
-          rows={rows}
-          columns={columns}
-          actions={actions}
-          handleAction={this.handleActionClick}
-        />
-        <Dialog
-          header="Suppliers From"
-          visible={this.state.displayDialog}
-          style={{ width: "50vw" }}
-          onHide={() =>
-            this.setState({ formValue: this.EMPTY_FORM, displayDialog: false })
-          }
-        >
-          <SupplierForm
-            formValue={this.state.formValue}
-            onSubmit={this.submitForm}
-            onClose={() =>
-              this.setState({
-                formValue: this.EMPTY_FORM,
-                displayDialog: false,
-              })
-            }
-          />
-        </Dialog>
-      </div>
-    );
-  }
-}
+      </Dialog>
+    </div>
+  );
+};
 
 export default Supplier;
