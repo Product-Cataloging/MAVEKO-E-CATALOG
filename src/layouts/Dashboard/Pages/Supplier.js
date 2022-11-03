@@ -111,6 +111,7 @@ const Supplier = (props) => {
       />
       <Dialog
         header="Suppliers From"
+        draggable={false}
         visible={displayDialog}
         style={{ width: "50vw" }}
         onHide={() => {

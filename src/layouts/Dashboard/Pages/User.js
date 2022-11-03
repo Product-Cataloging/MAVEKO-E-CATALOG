@@ -79,6 +79,7 @@ const User = (props) => {
       <TableComponent rows={rows} columns={columns} />
       <Dialog
         header="Products From"
+        draggable={false}
         visible={displayDialog}
         style={{ width: "50vw" }}
         onHide={() => {

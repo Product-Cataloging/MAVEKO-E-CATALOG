@@ -141,6 +141,7 @@ const Product = (props) => {
       />
       <Dialog
         header="Products From"
+        draggable={false}
         visible={displayDialog}
         style={{ width: "50vw" }}
         onHide={() => {
