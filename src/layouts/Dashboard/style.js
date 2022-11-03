@@ -9,6 +9,14 @@ export const style = {
     borderRadius: 20,
     backgroundColor: "white",
   },
+  menuBar: {
+    margin: "16px 0px",
+    paddingRight: "16px",
+    borderRight: "2px solid #81868a",
+    color: "#81868a",
+    cursor: "pointer",
+    transition: "transform 3s cubic-bezier(0, .52, 0, 1)",
+  },
   circleButton: {
     backgroundColor: "white",
     border: "none",

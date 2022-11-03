@@ -1,0 +1,6 @@
+.navbar {
+  transition: margin .5s ease-in-out;
+}
+.hide {
+  margin-left: -280PX;
+}

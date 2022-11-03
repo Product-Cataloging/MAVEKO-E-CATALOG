@@ -16,10 +16,12 @@ import { Badge } from "primereact/badge";
 import { unread_notifications_path, notifications_path } from "../../environment";
 import { edit, get } from "../../services/AdminServices";
 import OrderItem from "./Pages/OrderItem";
+import "../../components/Navbar/navbar-transition.css";
 
 const Admin = (props) => {
   const [breadCrumb, setBreadCrumb] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [navBarOpen, toggleNabBar] = useState(true);
 
   useEffect(() => {
     get(unread_notifications_path).then((response) => {
@@ -55,6 +57,13 @@ const Admin = (props) => {
 
   const leftContents = (
     <React.Fragment>
+      <i
+        style={style.menuBar}
+        onClick={() => {
+          toggleNabBar((status) => !status);
+        }}
+        className="pi pi-bars"
+      ></i>
       <BreadCrumb style={style.breadCrumb} model={breadCrumb} home={home} />
     </React.Fragment>
   );
@@ -88,7 +97,9 @@ const Admin = (props) => {
 
   return (
     <div style={{ display: "flex", backgroundColor: "var(--gray)" }}>
-      <DashboardNavbar />
+      <div className={navBarOpen ? "navbar" : "navbar hide"}>
+        <DashboardNavbar />
+      </div>
       <div
         style={{
           padding: "15px",
