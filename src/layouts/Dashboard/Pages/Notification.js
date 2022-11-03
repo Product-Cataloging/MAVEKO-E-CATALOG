@@ -5,7 +5,7 @@ import { Toolbar } from "primereact/toolbar";
 const Notification = (props) => {
 
   useEffect(() => {
-    props.getUrl({ label: "Notifications", url: "/notifications" });
+    props.getUrl([{ label: "Notifications", url: "/notifications" }]);
   }, []);
 
   const noNotifications = (

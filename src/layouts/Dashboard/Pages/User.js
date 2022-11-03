@@ -23,7 +23,7 @@ const User = (props) => {
   const [displayDialog, setDialog] = useState(false);
 
   useEffect(() => {
-    props.getUrl({ label: "Users", url: "/users" });
+    props.getUrl([{ label: "Users", url: "/users" }]);
     get(users_path).then((response) => {
       response.data.map((res, index) => {
         response.data[index].is_active = res.is_active.toString();

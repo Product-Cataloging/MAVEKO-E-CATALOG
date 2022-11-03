@@ -15,6 +15,7 @@ import Notification from "./Pages/Notification";
 import { Badge } from "primereact/badge";
 import { unread_notifications_path, notifications_path } from "../../environment";
 import { edit, get } from "../../services/AdminServices";
+import OrderItem from "./Pages/OrderItem";
 
 const Admin = (props) => {
   const [breadCrumb, setBreadCrumb] = useState([]);
@@ -31,7 +32,7 @@ const Admin = (props) => {
   const home = { icon: "pi pi-home", url: "/dashboard" };
 
   const currentUrl = (event) => {
-    setBreadCrumb([event]);
+    setBreadCrumb(event);
   };
 
   const navigaetToUsersPage = () => {
@@ -127,7 +128,7 @@ const Admin = (props) => {
           <Route 
             exact
             path="/orders/:id"
-            element={<Order getUrl={currentUrl} />}
+            element={<OrderItem getUrl={currentUrl} />}
           ></Route>
           <Route
             exact

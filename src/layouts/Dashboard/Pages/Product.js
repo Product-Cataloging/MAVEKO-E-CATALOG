@@ -24,7 +24,7 @@ const Product = (props) => {
   const [formValue, setFormValue] = useState(EMPTY_FORM);
 
   useEffect(() => {
-    props.getUrl({ label: "Products", url: "/products" });
+    props.getUrl([{ label: "Products", url: "/products" }]);
 
     get(products_path).then((response) => {
       response.data.map((res, index) => {

@@ -7,7 +7,7 @@ const Quotation = (props) => {
   const [quotations, setQuotations] = useState([]);
 
   useEffect(() => {
-    props.getUrl({ label: "Quotations", url: "/quotations" });
+    props.getUrl([{ label: "Quotations", url: "/quotations" }]);
 
     fetch(`${apiUrl}/quotation_requests`)
       .then((response) => response.json())

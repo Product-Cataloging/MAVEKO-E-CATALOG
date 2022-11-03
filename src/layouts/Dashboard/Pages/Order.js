@@ -7,7 +7,7 @@ const Order = (props) => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    props.getUrl({ label: "Orders", url: "/orders" });
+    props.getUrl([{ label: "Orders", url: "/orders" }]);
 
     get('orders_path').then((response) => {
       setOrders(response.data);

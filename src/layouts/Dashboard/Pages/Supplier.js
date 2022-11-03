@@ -24,7 +24,7 @@ const Supplier = (props) => {
   const [formValue, setFormValue] = useState(EMPTY_FORM);
 
   useEffect(() => {
-    props.getUrl({ label: "Suppliers", url: "/suppliers" });
+    props.getUrl([{ label: "Suppliers", url: "/suppliers" }]);
 
     get(suppliers_path).then((response) => setSuppliers(response.data));
   }, []);
