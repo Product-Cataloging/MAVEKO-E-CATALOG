@@ -1,9 +1,9 @@
 import NotificationItem from "../../../components/Notification/NotificationItem";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Toolbar } from "primereact/toolbar";
 
 const Notification = (props) => {
-  const [notifications, setNotifications] = useState([]);
+
   useEffect(() => {
     props.getUrl({ label: "Notifications", url: "/notifications" });
   }, []);
@@ -17,7 +17,11 @@ const Notification = (props) => {
     <div>
       {props.notifications.length > 0 ? (
         props.notifications.map((notification) => (
-          <NotificationItem key={notification.id} notification={notification} onClose={props.onReadNotification} />
+          <NotificationItem
+            key={notification.id}
+            notification={notification}
+            onClose={props.onReadNotification}
+          />
         ))
       ) : (
         <Toolbar

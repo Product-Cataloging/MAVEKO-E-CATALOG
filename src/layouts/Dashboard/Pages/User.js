@@ -65,9 +65,7 @@ const User = (props) => {
   );
 
   const rightContents = <React.Fragment></React.Fragment>;
-  const actions = [
-    { label: "Edit", name: "edit", color: "var(--blue)", icon: "pi pi-pencil" },
-  ];
+
   const handleActionClick = () => {};
   return (
     <div>

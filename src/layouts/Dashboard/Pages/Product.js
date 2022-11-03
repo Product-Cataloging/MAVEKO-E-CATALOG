@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { products_path, categories_path } from "../../../environment";
 import { get, add, edit } from "../../../services/AdminServices";
 import TableComponent from "../../../components/Table/Table";
