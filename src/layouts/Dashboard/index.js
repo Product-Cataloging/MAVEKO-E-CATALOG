@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DashboardNavbar from "../../components/Navbar/DashboardNavbar";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import Supplier from "./Pages/Supplier";
 import Product from "./Pages/Product";
@@ -162,6 +162,7 @@ const Admin = (props) => {
               />
             }
           ></Route>
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
     </div>
