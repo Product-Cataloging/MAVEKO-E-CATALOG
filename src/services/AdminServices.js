@@ -13,7 +13,6 @@ export const add = async (data, path) => {
     },
     body: JSON.stringify({ payload: data }),
   });
-  console.log(response.json);
   return await response.json();
 };
 
