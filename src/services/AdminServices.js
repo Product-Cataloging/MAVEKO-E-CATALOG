@@ -5,25 +5,25 @@ export const get = async (path) => {
   return await response.json();
 };
 
-export const add = async (supplier, path) => {
+export const add = async (data, path) => {
   const response = await fetch(`${apiUrl}/${path}`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
-    body: JSON.stringify({ payload: supplier }),
+    body: JSON.stringify({ payload: data }),
   });
   console.log(response.json);
   return await response.json();
 };
 
-export const edit = async (id, supplier, path) => {
+export const edit = async (id, data, path) => {
   const response = await fetch(`${apiUrl}/${path}/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
     },
-    body: JSON.stringify({ payload: supplier }),
+    body: JSON.stringify({ payload: data }),
   });
   return await response.json();
 };
