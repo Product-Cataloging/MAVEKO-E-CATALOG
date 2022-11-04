@@ -43,7 +43,7 @@ const TableComponent = (props) => {
         selectionMode="checkbox"
         selection={selection ? selection : ""}
         onSelectionChange={
-          selection ? (e) => props.handleSelections(e.value) : ""
+          selection ? (e) => props.handleSelection(e.value) : ""
         }
         dataKey="id"
         responsiveLayout="scroll"
