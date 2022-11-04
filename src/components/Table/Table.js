@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 const TableComponent = (props) => {
   const { rows, columns, actions, selection } = props;
-  const [first, setFirst] = useState(10);
 
   const getActionButtons = (rowData) => {
     let buttons = actions.map((action) => (
@@ -43,7 +42,9 @@ const TableComponent = (props) => {
         value={rows}
         selectionMode="checkbox"
         selection={selection ? selection : ""}
-        onSelectionChange={selection ? (e) => props.handleSelections(e.value) : ""}
+        onSelectionChange={
+          selection ? (e) => props.handleSelections(e.value) : ""
+        }
         dataKey="id"
         responsiveLayout="scroll"
         paginator
