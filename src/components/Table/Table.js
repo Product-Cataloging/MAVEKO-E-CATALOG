@@ -1,87 +1,83 @@
-import React, { Component } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 import { Button } from "primereact/button";
+import { useEffect, useState } from "react";
 
 const TableComponent = (props) => {
-  const { rows, columns, actions } = props;
+  const { rows, columns, actions, selection } = props;
+  const [first, setFirst] = useState(10);
+
+  const getActionButtons = (rowData) => {
+    let buttons = actions.map((action) => (
+      <Button
+        style={{
+          color: action.color,
+          backgroundColor: "transparent",
+          border: "none",
+          marginRight: 5,
+          cursor: "pointer",
+          padding: "5",
+          width: "fit-content",
+        }}
+        key={action.name}
+        tooltip={action.label}
+        tooltipOptions={{ position: "bottom" }}
+        icon={action.icon}
+        onClick={() => props.handleAction({ action, row: rowData })}
+      ></Button>
+    ));
+    return buttons;
+  };
 
   return (
-    <TableContainer
-      style={{ padding: "0 10px", borderRadius: 20, boxSizing: "border-box" }}
-      component={Paper}
+    <div
+      style={{
+        borderRadius: "20px",
+        overflow: "hidden",
+        boxShadow:
+          "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+      }}
     >
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            {columns.map((column) => (
-              <TableCell style={{ fontWeight: "bold" }} key={column.name}>
-                {column.label}
-              </TableCell>
-            ))}
-            {actions && (
-              <TableCell style={{ fontWeight: "bold" }}>Actions</TableCell>
-            )}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.length > 0 ? (
-            rows.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                {columns.map((column) => (
-                  <TableCell key={column.name}>
-                    <span>{row[column.name]}</span>
-                  </TableCell>
-                ))}
-                <TableCell align="center" style={{ fontWeight: "bolder" }}>
-                  {actions &&
-                    actions.map((action) => (
-                      <Button
-                        style={{
-                          color: action.color,
-                          backgroundColor: "transparent",
-                          border: "none",
-                          marginRight: 5,
-                          cursor: "pointer",
-                          padding: "5",
-                          width: "fit-content",
-                        }}
-                        key={action.name}
-                        tooltip={action.label}
-                        tooltipOptions={{ position: "bottom" }}
-                        icon={action.icon}
-                        onClick={() => props.handleAction({ action, row })}
-                      ></Button>
-                    ))}
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell
-                style={{
-                  color: "gray",
-                  fontWeight: "bolder",
-                  padding: "20px",
-                }}
-                align="center"
-                colSpan={actions ? columns.length+1 : columns.length}
-              >
-                No Data Found
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <DataTable
+        style={{ fontSize: "14px" }}
+        value={rows}
+        selectionMode="checkbox"
+        selection={selection ? selection : ""}
+        onSelectionChange={selection ? (e) => props.setSelections(e.value) : ""}
+        dataKey="id"
+        responsiveLayout="scroll"
+        paginator
+        paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Records"
+        rows={10}
+        rowsPerPageOptions={[5, 10, 20, 50, 100]}
+      >
+        {selection && (
+          <Column
+            style={{ backgroundColor: "white" }}
+            selectionMode="multiple"
+            headerStyle={{ width: "3em" }}
+          ></Column>
+        )}
+        {columns.map((col) => (
+          <Column
+            style={{ backgroundColor: "white" }}
+            key={col.name}
+            field={col.name}
+            header={col.label}
+          ></Column>
+        ))}
+        {actions && (
+          <Column
+            header="Actions"
+            style={{ backgroundColor: "white" }}
+            headerStyle={{ width: "4rem", textAlign: "center" }}
+            bodyStyle={{ textAlign: "center", overflow: "visible" }}
+            body={getActionButtons}
+          />
+        )}
+      </DataTable>
+    </div>
   );
 };
 
