@@ -17,8 +17,8 @@ const Quotation = (props) => {
   useEffect(() => {
     props.getUrl([{ label: "Quotations", url: "/quotations" }]);
 
-    get(quotation_path).then(
-      (response) => {
+    get(quotation_path)
+      .then((response) => {
         response.data.map((res, index) => {
           response.data[index].image_url = (
             <a href={res.image_url} target="_blank">
@@ -36,23 +36,24 @@ const Quotation = (props) => {
           );
         });
         setQuotations(response.data);
-      },
-      (error) => {
+      })
+      .catch((err) => {
         toast.current.show({
           severity: "error",
           summary: "Error",
           detail: "",
           life: 3000,
         });
-      }
-    );
+      });
   }, []);
 
   const changeStatus = (status) => {
     let quotationsList = [...quotations];
+    let length = tableSelections.length;
+    let counter = 0;
     tableSelections.map((item) => {
       edit(item.id, { status: status }, quotation_path).then(
-        (response) => {
+        async (response) => {
           response.data.image_url = (
             <a href={response.data.image_url} target="_blank">
               {response.data.image_url.substr(0, 25)}...
@@ -71,6 +72,11 @@ const Quotation = (props) => {
             (quo) => quo.id === response.data.id
           );
           quotationsList[index] = response.data;
+          counter++;
+          if (counter === length) {
+            //to make sure setQuotations is only called after each item has been updated
+            setQuotations(quotationsList);
+          }
         },
         (error) => {
           console.log(error);
@@ -83,7 +89,6 @@ const Quotation = (props) => {
         }
       );
     });
-    setQuotations(quotationsList);
   };
 
   const rows = quotations;
