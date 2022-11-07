@@ -7,6 +7,7 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import SupplierForm from "../Forms/SupplierForm";
 import { style } from "../style";
+import { useLocation } from "react-router-dom";
 
 const Supplier = (props) => {
   const EMPTY_FORM = {
@@ -23,8 +24,10 @@ const Supplier = (props) => {
   const [displayDialog, setDialog] = useState(false);
   const [formValue, setFormValue] = useState(EMPTY_FORM);
 
+  const currentPath = useLocation();
+
   useEffect(() => {
-    props.getUrl([{ label: "Suppliers", url: "/suppliers" }]);
+    props.getUrl([{ label: "Suppliers", url: currentPath.pathname }]);
 
     get(suppliers_path).then((response) => setSuppliers(response.data));
   }, []);

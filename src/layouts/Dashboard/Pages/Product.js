@@ -7,6 +7,7 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import ProductForm from "../Forms/ProductForm";
 import { style } from "../style";
+import { useLocation } from "react-router-dom";
 
 const Product = (props) => {
   const EMPTY_FORM = {
@@ -23,8 +24,10 @@ const Product = (props) => {
   const [displayDialog, setDialog] = useState(false);
   const [formValue, setFormValue] = useState(EMPTY_FORM);
 
+  const currentPath = useLocation();
+
   useEffect(() => {
-    props.getUrl([{ label: "Products", url: "/products" }]);
+    props.getUrl([{ label: "Products", url: currentPath.pathname }]);
 
     get(products_path).then((response) => {
       response.data.map((res, index) => {

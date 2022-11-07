@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TableComponent from "../../../components/Table/Table";
 import { get } from "../../../services/AdminServices";
+import { useLocation } from "react-router-dom";
 
 const Order = (props) => {
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    props.getUrl([{ label: "Orders", url: "/orders" }]);
+  const currentPath = useLocation();
 
-    get('orders_path').then((response) => {
+  useEffect(() => {
+    props.getUrl([{ label: "Orders", url: currentPath.pathname }]);
+
+    get("orders_path").then((response) => {
       setOrders(response.data);
     });
   }, []);

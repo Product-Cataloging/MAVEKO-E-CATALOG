@@ -7,15 +7,17 @@ import { Button } from "primereact/button";
 import { style } from "../style";
 import { get, edit } from "../../../services/AdminServices";
 import { Toast } from "primereact/toast";
+import { useLocation } from "react-router-dom";
 
 const Quotation = (props) => {
   const [quotations, setQuotations] = useState([]);
   const [tableSelections, setSelections] = useState([]);
   const toast = useRef(null);
-  // useEffect(() => {console.log(quotations)}, [quotations]);
+
+  const currentPath = useLocation();
 
   useEffect(() => {
-    props.getUrl([{ label: "Quotations", url: "/quotations" }]);
+    props.getUrl([{ label: "Quotations", url: currentPath.pathname }]);
 
     get(quotation_path)
       .then((response) => {

@@ -5,27 +5,27 @@ class DashboardNavbar extends Component {
     links: [
       {
         name: "Dashboard",
-        route: "/dashboard",
+        route: "/admin/dashboard",
         icon: <i className="pi pi-chart-bar"></i>,
       },
       {
         name: "Suppliers",
-        route: "/suppliers",
+        route: "/admin/suppliers",
         icon: <i className="pi pi-truck"></i>,
       },
       {
         name: "Products",
-        route: "/products",
+        route: "/admin/products",
         icon: <i className="pi pi-box"></i>,
       },
       {
         name: "Orders",
-        route: "/orders",
+        route: "/admin/orders",
         icon: <i className="pi pi-shopping-cart"></i>,
       },
       {
         name: "Quotation Requests",
-        route: "/quotations",
+        route: "/admin/quotations",
         icon: <i className="pi pi-file"></i>,
       },
     ],

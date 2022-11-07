@@ -8,6 +8,7 @@ import { signup_path, users_path } from "../../../environment";
 import { get, add, edit } from "../../../services/AdminServices";
 import { style } from "../style";
 import UserForm from "../Forms/UserForm";
+import { useLocation } from "react-router-dom";
 
 const User = (props) => {
   const EMPTY_FORM = {
@@ -22,8 +23,10 @@ const User = (props) => {
   const [users, setUsers] = useState([]);
   const [displayDialog, setDialog] = useState(false);
 
+  const currentPath = useLocation();
+
   useEffect(() => {
-    props.getUrl([{ label: "Users", url: "/users" }]);
+    props.getUrl([{ label: "Users", url: currentPath.pathname }]);
     get(users_path).then((response) => {
       response.data.map((res, index) => {
         response.data[index].is_active = res.is_active.toString();

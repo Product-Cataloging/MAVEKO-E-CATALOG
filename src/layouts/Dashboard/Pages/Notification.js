@@ -1,11 +1,13 @@
 import NotificationItem from "../../../components/Notification/NotificationItem";
 import React, { useEffect } from "react";
 import { Toolbar } from "primereact/toolbar";
+import { useLocation } from "react-router-dom";
 
 const Notification = (props) => {
+  const currentPath = useLocation();
 
   useEffect(() => {
-    props.getUrl([{ label: "Notifications", url: "/notifications" }]);
+    props.getUrl([{ label: "Notifications", url: currentPath.pathname }]);
   }, []);
 
   const noNotifications = (

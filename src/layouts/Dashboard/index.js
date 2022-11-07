@@ -13,7 +13,10 @@ import { BreadCrumb } from "primereact/breadcrumb";
 import { style } from "./style";
 import Notification from "./Pages/Notification";
 import { Badge } from "primereact/badge";
-import { unread_notifications_path, notifications_path } from "../../environment";
+import {
+  unread_notifications_path,
+  notifications_path,
+} from "../../environment";
 import { edit, get } from "../../services/AdminServices";
 import OrderItem from "./Pages/OrderItem";
 import "../../components/Navbar/navbar-transition.css";
@@ -31,18 +34,18 @@ const Admin = (props) => {
 
   const navigate = useNavigate();
 
-  const home = { icon: "pi pi-home", url: "/dashboard" };
+  const home = { icon: "pi pi-home", url: "/admin/dashboard" };
 
   const currentUrl = (event) => {
     setBreadCrumb(event);
   };
 
   const navigaetToUsersPage = () => {
-    navigate("/users");
+    navigate("/admin/users");
   };
 
   const navigaetToNotificationsPage = () => {
-    navigate("/notifications");
+    navigate("/admin/notifications");
   };
 
   const changeStatusToRead = (notification) => {
@@ -117,42 +120,38 @@ const Admin = (props) => {
         />
         <Routes>
           <Route
-            exact
+            path="/"
+            element={<Navigate to="/admin/dashboard" replace />}
+          ></Route>
+          <Route
             path="/dashboard"
             element={<Dashboard getUrl={currentUrl} />}
           ></Route>
           <Route
-            exact
             path="/suppliers"
             element={<Supplier getUrl={currentUrl} />}
           ></Route>
           <Route
-            exact
             path="/products"
             element={<Product getUrl={currentUrl} />}
           ></Route>
-          <Route 
-            exact
+          <Route
             path="/orders"
             element={<Order getUrl={currentUrl} />}
           ></Route>
-          <Route 
-            exact
+          <Route
             path="/orders/:id"
             element={<OrderItem getUrl={currentUrl} />}
           ></Route>
           <Route
-            exact
             path="/quotations"
             element={<Quotation getUrl={currentUrl} />}
           ></Route>
           <Route
-            exact
             path="/users"
             element={<User getUrl={currentUrl} />}
           ></Route>
           <Route
-            exact
             path="/notifications"
             element={
               <Notification
@@ -162,7 +161,7 @@ const Admin = (props) => {
               />
             }
           ></Route>
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
         </Routes>
       </div>
     </div>

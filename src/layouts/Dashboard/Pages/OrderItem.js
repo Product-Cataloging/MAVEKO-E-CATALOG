@@ -2,15 +2,20 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import TableComponent from "../../../components/Table/Table";
 import { get } from "../../../services/AdminServices";
+import { useLocation } from "react-router-dom";
 
 const OrderItem = (props) => {
-  const { id } = useParams();
   const [orderItems, setOrderItems] = useState([]);
-    
-  useEffect(() => {
-    props.getUrl([{ label: "Orders", url: "/orders" }, {label: "Items", url: `/orders/${id}`}]);
 
-    get('orders_items_path').then((response) => {
+  const currentPath = useLocation();
+
+  useEffect(() => {
+    props.getUrl([
+      { label: "Orders", url: "/admin/orders" },
+      { label: "Items", url: currentPath.pathname },
+    ]);
+
+    get("orders_items_path").then((response) => {
       setOrderItems(response.data);
     });
   }, []);
@@ -25,10 +30,7 @@ const OrderItem = (props) => {
 
   return (
     <div>
-      <TableComponent
-        rows={rows}
-        columns={columns}
-      />
+      <TableComponent rows={rows} columns={columns} />
     </div>
   );
 };
