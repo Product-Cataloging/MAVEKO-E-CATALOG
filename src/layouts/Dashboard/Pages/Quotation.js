@@ -127,11 +127,15 @@ const Quotation = (props) => {
 
   return (
     <div>
-      <Toolbar style={style.toolbar} right={rightContents} />
+      {localStorage.getItem("role") === "Operator" && (
+        <Toolbar style={style.toolbar} right={rightContents} />
+      )}
       <TableComponent
         rows={rows}
         columns={columns}
-        selection={tableSelections}
+        selection={
+          localStorage.getItem("role") === "Operator" && tableSelections
+        }
         handleSelection={(event) => {
           setSelections(event);
         }}

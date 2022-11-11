@@ -94,13 +94,15 @@ const Admin = (props) => {
 
   const rightContents = (
     <React.Fragment>
-      <Button
-        style={{ ...style.button, ...style.usersBtn }}
-        className="p-button-raised p-button-text p-button-sm"
-        icon="pi pi-users"
-        label="Users"
-        onClick={navigaetToUsersPage}
-      />
+      {localStorage.getItem("role") === "Administrator" && (
+        <Button
+          style={{ ...style.button, ...style.usersBtn }}
+          className="p-button-raised p-button-text p-button-sm"
+          icon="pi pi-users"
+          label="Users"
+          onClick={navigaetToUsersPage}
+        />
+      )}
 
       <Button
         style={{ ...style.circleButton, overflow: "visible" }}
