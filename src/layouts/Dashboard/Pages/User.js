@@ -5,7 +5,7 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { useEffect, useState } from "react";
 import { signup_path, users_path } from "../../../environment";
-import { get, add, edit } from "../../../services/AdminServices";
+import { get, add } from "../../../services/AdminServices";
 import { style } from "../style";
 import UserForm from "../Forms/UserForm";
 import { useLocation } from "react-router-dom";
@@ -27,12 +27,18 @@ const User = (props) => {
 
   useEffect(() => {
     props.getUrl([{ label: "Users", url: currentPath.pathname }]);
-    get(users_path).then((response) => {
-      response.data.map((res, index) => {
-        response.data[index].is_active = res.is_active.toString();
+    get(users_path)
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((err) => {
+        props.message({
+          severity: "error",
+          summary: "Error",
+          detail: "Couldn't Get List of Users",
+          life: 3000,
+        });
       });
-      setUsers(response.data);
-    });
   }, []);
 
   const submitForm = (event) => {
@@ -69,7 +75,6 @@ const User = (props) => {
 
   const rightContents = <React.Fragment></React.Fragment>;
 
-  const handleActionClick = () => {};
   return (
     <div>
       <Toolbar

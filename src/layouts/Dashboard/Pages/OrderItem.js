@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import TableComponent from "../../../components/Table/Table";
 import { get } from "../../../services/AdminServices";
 import { useLocation } from "react-router-dom";
@@ -15,9 +14,18 @@ const OrderItem = (props) => {
       { label: "Items", url: currentPath.pathname },
     ]);
 
-    get("orders_items_path").then((response) => {
-      setOrderItems(response.data);
-    });
+    get("orders_items_path")
+      .then((response) => {
+        setOrderItems(response.data);
+      })
+      .catch((err) => {
+        props.message({
+          severity: "error",
+          summary: "Error",
+          detail: "Couldn't Get List of Order Items",
+          life: 3000,
+        });
+      });
   }, []);
 
   const rows = orderItems;

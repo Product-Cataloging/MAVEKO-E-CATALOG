@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DashboardNavbar from "../../components/Navbar/DashboardNavbar";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
@@ -20,16 +20,28 @@ import {
 import { edit, get } from "../../services/AdminServices";
 import OrderItem from "./Pages/OrderItem";
 import "../../components/Navbar/navbar-transition.css";
+import { Toast } from "primereact/toast";
 
 const Admin = (props) => {
   const [breadCrumb, setBreadCrumb] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [navBarOpen, toggleNabBar] = useState(true);
 
+  const toast = useRef(null);
+
   useEffect(() => {
-    get(unread_notifications_path).then((response) => {
-      setNotifications(response.data);
-    });
+    get(unread_notifications_path)
+      .then((response) => {
+        setNotifications(response.data);
+      })
+      .catch((err) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Couldn't Get List of Notifications",
+          life: 3000,
+        });
+      });
   }, []);
 
   const navigate = useNavigate();
@@ -54,7 +66,16 @@ const Admin = (props) => {
       { ...notification, status: "Read" },
       notifications_path
     ).then((response) => {
-      setNotifications(notifications.filter((n) => n.id != response.data.id));
+      setNotifications(notifications.filter((n) => n.id !== response.data.id));
+    });
+  };
+
+  const addMessage = (event) => {
+    toast.current.show({
+      severity: event.severity,
+      summary: event.summary,
+      detail: event.detail,
+      life: event.life,
     });
   };
 
@@ -91,7 +112,7 @@ const Admin = (props) => {
             value={notifications.length}
             style={{ fontSize: "10px" }}
             size="small"
-            severity={notifications.length == 0 ? "secondary" : "info"}
+            severity={notifications.length === 0 ? "secondary" : "info"}
           ></Badge>
         </i>
       </Button>
@@ -113,6 +134,7 @@ const Admin = (props) => {
           boxSizing: "border-box",
         }}
       >
+        <Toast ref={toast} />
         <Toolbar
           style={style.headerToolbar}
           left={leftContents}
@@ -125,31 +147,31 @@ const Admin = (props) => {
           ></Route>
           <Route
             path="/dashboard"
-            element={<Dashboard getUrl={currentUrl} />}
+            element={<Dashboard getUrl={currentUrl} message={addMessage} />}
           ></Route>
           <Route
             path="/suppliers"
-            element={<Supplier getUrl={currentUrl} />}
+            element={<Supplier getUrl={currentUrl} message={addMessage} />}
           ></Route>
           <Route
             path="/products"
-            element={<Product getUrl={currentUrl} />}
+            element={<Product getUrl={currentUrl} message={addMessage} />}
           ></Route>
           <Route
             path="/orders"
-            element={<Order getUrl={currentUrl} />}
+            element={<Order getUrl={currentUrl} message={addMessage} />}
           ></Route>
           <Route
             path="/orders/:id"
-            element={<OrderItem getUrl={currentUrl} />}
+            element={<OrderItem getUrl={currentUrl} message={addMessage} />}
           ></Route>
           <Route
             path="/quotations"
-            element={<Quotation getUrl={currentUrl} />}
+            element={<Quotation getUrl={currentUrl} message={addMessage} />}
           ></Route>
           <Route
             path="/users"
-            element={<User getUrl={currentUrl} />}
+            element={<User getUrl={currentUrl} message={addMessage} />}
           ></Route>
           <Route
             path="/notifications"
@@ -158,10 +180,14 @@ const Admin = (props) => {
                 notifications={notifications}
                 onReadNotification={changeStatusToRead}
                 getUrl={currentUrl}
+                message={addMessage}
               />
             }
           ></Route>
-          <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route
+            path="*"
+            element={<Navigate to="/admin/dashboard" replace />}
+          />
         </Routes>
       </div>
     </div>

@@ -29,48 +29,84 @@ const Product = (props) => {
   useEffect(() => {
     props.getUrl([{ label: "Products", url: currentPath.pathname }]);
 
-    get(products_path).then((response) => {
-      response.data.map((res, index) => {
-        response.data[index].image_url = (
-          <a href={res.image_url} target="_blank">
-            {res.image_url.substr(0, 25)}...
-          </a>
-        );
+    get(products_path)
+      .then((response) => {
+        response.data.map((res, index) => {
+          response.data[index].image_url = (
+            <a href={res.image_url} target="_blank">
+              {res.image_url.substr(0, 25)}...
+            </a>
+          );
+        });
+        setProducts(response.data);
+      })
+      .catch((err) => {
+        props.message({
+          severity: "error",
+          summary: "Error",
+          detail: "Couldn't Get List of Products",
+          life: 3000,
+        });
       });
-      setProducts(response.data);
-    });
 
-    get(categories_path).then((response) => {
-      let data = response.data;
-      let categoriesList = [];
-      for (const key in data) {
-        if (data[key].children.length > 0) {
-          data[key].children.forEach((category) => {
-            categoriesList.push(category);
-          });
+    get(categories_path)
+      .then((response) => {
+        let data = response.data;
+        let categoriesList = [];
+        for (const key in data) {
+          if (data[key].children.length > 0) {
+            data[key].children.forEach((category) => {
+              categoriesList.push(category);
+            });
+          }
         }
-      }
-      setCategories(categoriesList);
-    });
+        setCategories(categoriesList);
+      })
+      .catch((err) => {
+        props.message({
+          severity: "error",
+          summary: "Error",
+          detail: "Couldn't Get List of Categories",
+          life: 3000,
+        });
+      });
   }, []);
 
   const submitForm = (event) => {
     const id = event.id;
     if (id === null) {
       delete event.id;
-      add(event, products_path).then((response) => {
-        setProducts((prevProducts) => [...prevProducts, response.data]);
-      });
+      add(event, products_path)
+        .then((response) => {
+          setProducts((prevProducts) => [...prevProducts, response.data]);
+        })
+        .catch((err) => {
+          props.message({
+            severity: "error",
+            summary: "Error",
+            detail: "Couldn't Add Product",
+            life: 3000,
+          });
+        });
     } else {
-      edit(id, event, products_path).then((response) => {
-        const oldProducts = products.filter((product) => product.id !== id);
-        response.data.image_url = (
-          <a href={response.data.image_url} target="_blank">
-            {response.data.image_url.substr(0, 25)}...
-          </a>
-        );
-        setProducts([response.data, ...oldProducts]);
-      });
+      edit(id, event, products_path)
+        .then((response) => {
+          const oldProducts = products.filter((product) => product.id !== id);
+          response.data.image_url = (
+            <a href={response.data.image_url} target="_blank">
+              {response.data.image_url.substr(0, 25)}...
+            </a>
+          );
+          setProducts([response.data, ...oldProducts]);
+        })
+        .catch((err) => {
+          props.message({
+            severity: "error",
+            summary: "Error",
+            detail: "Couldn't Update Product",
+            life: 3000,
+          });
+        });
     }
     setDialog(false);
   };

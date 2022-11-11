@@ -12,9 +12,18 @@ const Order = (props) => {
   useEffect(() => {
     props.getUrl([{ label: "Orders", url: currentPath.pathname }]);
 
-    get("orders_path").then((response) => {
-      setOrders(response.data);
-    });
+    get("orders_path")
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch((err) => {
+        props.message({
+          severity: "error",
+          summary: "Error",
+          detail: "Couldn't Get List of Orders",
+          life: 3000,
+        });
+      });
   }, []);
 
   const navigate = useNavigate();

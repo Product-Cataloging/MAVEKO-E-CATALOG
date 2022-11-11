@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { quotation_path } from "../../../environment";
 import TableComponent from "../../../components/Table/Table";
 import { Tag } from "primereact/tag";
@@ -6,13 +6,11 @@ import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
 import { style } from "../style";
 import { get, edit } from "../../../services/AdminServices";
-import { Toast } from "primereact/toast";
 import { useLocation } from "react-router-dom";
 
 const Quotation = (props) => {
   const [quotations, setQuotations] = useState([]);
   const [tableSelections, setSelections] = useState([]);
-  const toast = useRef(null);
 
   const currentPath = useLocation();
 
@@ -40,10 +38,10 @@ const Quotation = (props) => {
         setQuotations(response.data);
       })
       .catch((err) => {
-        toast.current.show({
+        props.message({
           severity: "error",
           summary: "Error",
-          detail: "",
+          detail: "Couldn't Get List of Quotations",
           life: 3000,
         });
       });
@@ -81,11 +79,10 @@ const Quotation = (props) => {
           }
         },
         (error) => {
-          console.log(error);
-          toast.current.show({
+          props.message({
             severity: "error",
             summary: "Error",
-            detail: error.toString(),
+            detail: "Couldn't Update Quotation",
             life: 3000,
           });
         }
@@ -130,7 +127,6 @@ const Quotation = (props) => {
 
   return (
     <div>
-      <Toast ref={toast} />
       <Toolbar style={style.toolbar} right={rightContents} />
       <TableComponent
         rows={rows}

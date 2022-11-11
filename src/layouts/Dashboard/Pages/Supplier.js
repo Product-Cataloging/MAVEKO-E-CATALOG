@@ -29,21 +29,48 @@ const Supplier = (props) => {
   useEffect(() => {
     props.getUrl([{ label: "Suppliers", url: currentPath.pathname }]);
 
-    get(suppliers_path).then((response) => setSuppliers(response.data));
+    get(suppliers_path)
+      .then((response) => setSuppliers(response.data))
+      .catch((err) => {
+        props.message({
+          severity: "error",
+          summary: "Error",
+          detail: "Couldn't Get List of Suppliers",
+          life: 3000,
+        });
+      });
   }, []);
 
   const submitForm = (event) => {
     const id = event.id;
     if (id === null) {
       delete event.id;
-      add(event, suppliers_path).then((response) => {
-        setSuppliers((oldSuppliers) => [response.data, ...oldSuppliers]);
-      });
+      add(event, suppliers_path)
+        .then((response) => {
+          setSuppliers((oldSuppliers) => [response.data, ...oldSuppliers]);
+        })
+        .catch((err) => {
+          props.message({
+            severity: "error",
+            summary: "Error",
+            detail: "Couldn't Add Supplier",
+            life: 3000,
+          });
+        });
     } else {
-      edit(id, event, suppliers_path).then((response) => {
-        const oldSuppliers = suppliers.filter((sup) => sup.id !== id);
-        setSuppliers([response.data, ...oldSuppliers]);
-      });
+      edit(id, event, suppliers_path)
+        .then((response) => {
+          const oldSuppliers = suppliers.filter((sup) => sup.id !== id);
+          setSuppliers([response.data, ...oldSuppliers]);
+        })
+        .catch((err) => {
+          props.message({
+            severity: "error",
+            summary: "Error",
+            detail: "Couldn't Update Supplier",
+            life: 3000,
+          });
+        });
     }
     setDialog(false);
   };
