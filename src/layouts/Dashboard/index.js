@@ -79,6 +79,10 @@ const Admin = (props) => {
     });
   };
 
+  const handleSignout = () => {
+    localStorage.clear();
+    navigate('/signin');
+  }
   const leftContents = (
     <React.Fragment>
       <i
@@ -124,7 +128,7 @@ const Admin = (props) => {
   return (
     <div style={{ display: "flex", backgroundColor: "var(--gray)" }}>
       <div className={navBarOpen ? "navbar" : "navbar hide"}>
-        <DashboardNavbar />
+        <DashboardNavbar signout={handleSignout} />
       </div>
       <div
         style={{

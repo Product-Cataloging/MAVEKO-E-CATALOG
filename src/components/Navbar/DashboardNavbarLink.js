@@ -18,8 +18,9 @@ function DashboardNavbarLink(props) {
     link: {
       color: "inherit",
       textDecoration: "none",
-      padding: '15px',
-      display: 'block',
+      padding: '5px',
+      display: 'flex',
+      alignItems: 'center'
     },
   };
   return (
@@ -33,7 +34,6 @@ function DashboardNavbarLink(props) {
 }
 
 function CustomLink({ route, children, ...props }) {
-  const path = window.location.pathname;
   const resolvedPath = useResolvedPath(route);
   const isActive = useMatch({ path: resolvedPath.pathname, end: false });
   return (
